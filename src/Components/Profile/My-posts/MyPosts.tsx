@@ -1,16 +1,15 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import Post1 from "./Post/Post1";
-import {PostsType} from "../../../Redux/State";
+import {actionType, PostsType} from "../../../Redux/State";
 
-type MyPostsType={
-posts: Array<PostsType>;
-addPost: () => void;
-updateNewPostText: (NewText: string) => void
-newPostText: string;
+type MyPostsType = {
+    posts: Array<PostsType>;
+    newPostText: string;
+    dispatch: (action: actionType) => void
 }
 
-const MyPosts = (props:MyPostsType ) => {
+const MyPosts = (props: MyPostsType) => {
 
     let postsElements =
         props.posts.map(p => <Post1 message={p.message} likesCount={p.likesCount}/>)
@@ -18,13 +17,16 @@ const MyPosts = (props:MyPostsType ) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>();
 
     let addPotsClick = () => {
-        props.addPost()
+        // props.addPost()
+        props.dispatch({type: 'ADD-POST'})
     }
 
     let onPostChange = () => {
-        let text = newPostElement.current?.value;
-        if (text){
-        props.updateNewPostText(text);}
+        let newText = newPostElement.current?.value;
+        if (newText) {
+            //props.updateNewPostText(text);}
+            props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: newText});
+        }
     }
 
     return <div className={s.postBlock}>

@@ -8,13 +8,12 @@ import {Route} from "react-router-dom";
 import News from "./Components/News/News";
 import Music from "./Components/Music/Music";
 import Setting from "./Components/Setting/Setting";
-import {RoutStateType} from './Redux/State';
+import {actionType, RoutStateType} from './Redux/State';
 
 
 export type AppType = {
     state: RoutStateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: actionType) => void
 }
 
 
@@ -31,8 +30,7 @@ const App: React.FC<AppType> = (props) => {
                     <Dialogs dialogsState={props.state.messagesPage}/>}/>
                 <Route path='/profile' render={() =>
                     <Profile profileState={props.state.profilePage}
-                             addPost={props.addPost}
-                             updateNewPostText={props.updateNewPostText}/>}/>
+                             dispatch={props.dispatch}/>}/>
                 <Route path='/news' component={News}/>
                 <Route path='/music' component={Music}/>
                 <Route path='/setting' component={Setting}/>

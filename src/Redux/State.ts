@@ -30,10 +30,22 @@ export type storeType = {
     getState: () => RoutStateType
     _rerenderEntireTree: () => void
     subscribe: (observer: () => void) => void
+    dispatch: (action: actionType) => void
+}
+type addPostDispatchType = {
+    type: 'ADD-POST'
 }
 
+type updateNewPostTextDispatchType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newText: string
+}
 
-let store: storeType = {
+export type actionType = addPostDispatchType |updateNewPostTextDispatchType
+
+
+
+let store = {
     _state: {//_делаем приватным
 
         profilePage: {
@@ -68,29 +80,30 @@ let store: storeType = {
     getState() {
         return this._state
     },
+    subscribe(observer: () => void) {
+        this._rerenderEntireTree = observer;//паттерн=observer
+    },
 
     _rerenderEntireTree() {//стало методом
         console.log('State change')
     },
 
-    addPost() {
-        let newPost = {
-            id: 5,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
+    dispatch (action:addPostDispatchType |updateNewPostTextDispatchType) {
+        if (action.type === 'ADD-POST') {
+            let newPost = {
+                id: 5,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            }
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = ""; //зануляем
+            this._rerenderEntireTree();
         }
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ""; //зануляем
-        this._rerenderEntireTree();
-    },
-    updateNewPostText(newText) {
-        this._state.profilePage.newPostText = newText
-        this._rerenderEntireTree();
-    },
-    subscribe(observer: () => void) {
-        this._rerenderEntireTree = observer;//паттерн=observer
+        else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText
+            this._rerenderEntireTree();
+        }
     }
-
 }
 
 //window.store=store;//прописать в консоли стайт и увидить , что у нас ест
