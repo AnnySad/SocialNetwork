@@ -33,11 +33,11 @@ export type storeType = {
     dispatch: (action: actionType) => void
 }
 type addPostDispatchType = {
-    type: 'ADD-POST'
+    type: 'ADD_POST'
 }
 
 type updateNewPostTextDispatchType = {
-    type: 'UPDATE-NEW-POST-TEXT'
+    type: 'UPDATE_NEW_POST_TEXT'
     newText: string
 }
 
@@ -89,7 +89,7 @@ let store = {
     },
 
     dispatch (action:addPostDispatchType |updateNewPostTextDispatchType) {
-        if (action.type === 'ADD-POST') {
+        if (action.type === 'ADD_POST') {
             let newPost = {
                 id: 5,
                 message: this._state.profilePage.newPostText,
@@ -99,12 +99,21 @@ let store = {
             this._state.profilePage.newPostText = ""; //зануляем
             this._rerenderEntireTree();
         }
-        else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        else if (action.type === 'UPDATE_NEW_POST_TEXT') {
             this._state.profilePage.newPostText = action.newText
             this._rerenderEntireTree();
         }
     }
 }
+const ADD_POST: string = 'ADD-POST'
+const UPDATE_NEW_POST_TEXT: string = 'UPDATE-NEW-POST-TEXT'
+
+export const addPostActionCreator = ():addPostDispatchType => ({
+        type: 'ADD_POST'
+})
+export const updateNewPostTextActionCreator = (newText: string): updateNewPostTextDispatchType => ({
+        type: 'UPDATE_NEW_POST_TEXT', newText: newText
+})
 
 //window.store=store;//прописать в консоли стайт и увидить , что у нас ест
 export default store;
