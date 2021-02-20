@@ -1,3 +1,7 @@
+import profileReducer from "./profile-reducer";
+import messageReducer from "./message-reducer";
+import sidebarReducer from "./sidebar-reducer";
+
 export type MessagesType = {
     id: number
     message: string
@@ -23,18 +27,14 @@ export type MessagesPageType = {
 export type RoutStateType = {
     profilePage: ProfilePageType
     messagesPage: MessagesPageType
+    sidebar: any
 }
 export type storeType = {
     _state: RoutStateType
-    /* addPost: () => void
-     updateNewPostText: (newText: string) => void*/
     getState: () => RoutStateType
     _rerenderEntireTree: () => void
     subscribe: (observer: () => void) => void
-    dispatch: (action: actionType) => void
-}
-export type addPostDispatchType = {
-    type: 'ADD_POST'
+    dispatch: (action: any) => void
 }
 
 export type updateNewPostTextDispatchType = {
@@ -51,11 +51,15 @@ export type updateNewMessagesBodyActionCreatorDispatchType = {
     body: string
 }
 
-export type actionType =
-    addPostDispatchType
-    | updateNewPostTextDispatchType
-    | sendMessagesActionCreatorDispatchType
-    | updateNewMessagesBodyActionCreatorDispatchType
+export const updateNewPostTextActionCreator = (newText: string): updateNewPostTextDispatchType => ({
+    type: 'UPDATE_NEW_POST_TEXT', newText: newText
+})
+export const sendMessagesActionCreator = (): sendMessagesActionCreatorDispatchType => ({
+    type: 'SEND_NEW_MESSAGES'
+})
+export const updateNewMessagesBodyActionCreator = (body: string): updateNewMessagesBodyActionCreatorDispatchType => ({
+    type: 'TEXT_NEW_MESSAGES', body: body
+})
 
 
 let store: storeType = {
@@ -88,7 +92,7 @@ let store: storeType = {
             textNewMessages: "ww"
         },
 
-
+        sidebar: {}
     },
 
     getState() {
@@ -102,49 +106,47 @@ let store: storeType = {
         console.log('State change')
     },
 
-    dispatch(action: addPostDispatchType | updateNewPostTextDispatchType | sendMessagesActionCreatorDispatchType | updateNewMessagesBodyActionCreatorDispatchType) {
-        if (action.type === 'ADD_POST') {
-            let newPost = {
-                id: 5,
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            }
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ""; //зануляем
-            this._rerenderEntireTree();
-        } else if (action.type === 'UPDATE_NEW_POST_TEXT') {
-            this._state.profilePage.newPostText = action.newText
-            this._rerenderEntireTree();
-        } else if (action.type === 'TEXT_NEW_MESSAGES') {
-            this._state.messagesPage.textNewMessages = action.body;
-            this._rerenderEntireTree()
-        } else if (action.type === 'SEND_NEW_MESSAGES') {
-            debugger
-            let body = this._state.messagesPage.textNewMessages;
-            this._state.messagesPage.textNewMessages = " "; //зануляем
-            this._state.messagesPage.messages.push({id: 6, message: body})
-            this._rerenderEntireTree()
-        }
+    dispatch: function (action: any ) {
 
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.messagesPage = messageReducer(this._state.messagesPage, action);
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action);
+
+        /* if (action.type === 'ADD_POST') {
+             let newPost = {
+                 id: 5,
+                 message: this._state.profilePage.newPostText,
+                 likesCount: 0
+             }
+             this._state.profilePage.posts.push(newPost)
+             this._state.profilePage.newPostText = ""; //зануляем
+             this._rerenderEntireTree();
+         } else if (action.type === 'UPDATE_NEW_POST_TEXT') {
+             this._state.profilePage.newPostText = action.newText
+             this._rerenderEntireTree();
+         } else if (action.type === 'TEXT_NEW_MESSAGES') {
+             this._state.messagesPage.textNewMessages = action.body;
+             this._rerenderEntireTree()
+         } else if (action.type === 'SEND_NEW_MESSAGES') {
+             debugger
+             let body = this._state.messagesPage.textNewMessages;
+             this._state.messagesPage.textNewMessages = " "; //зануляем
+             this._state.messagesPage.messages.push({id: 6, message: body})
+             this._rerenderEntireTree()
+         }
+
+     }*/
+        this._rerenderEntireTree()
     }
 }
-const ADD_POST: string = 'ADD-POST'
+
+
+/*
 const UPDATE_NEW_POST_TEXT: string = 'UPDATE-NEW-POST-TEXT'
 const TEXT_NEW_MESSAGES: string = 'TEXT_NEW_MESSAGES'
 const SEND_NEW_MESSAGES: string = 'SEND_NEW_MESSAGES'
+*/
 
-export const addPostActionCreator = (): addPostDispatchType => ({
-    type: 'ADD_POST'
-})
-export const updateNewPostTextActionCreator = (newText: string): updateNewPostTextDispatchType => ({
-    type: 'UPDATE_NEW_POST_TEXT', newText: newText
-})
-export const sendMessagesActionCreator = (): sendMessagesActionCreatorDispatchType => ({
-    type: 'SEND_NEW_MESSAGES'
-})
-export const updateNewMessagesBodyActionCreator = (body: string): updateNewMessagesBodyActionCreatorDispatchType => ({
-    type: 'TEXT_NEW_MESSAGES', body: body
-})
 
 
 //window.store=store;//прописать в консоли стайт и увидить , что у нас ест

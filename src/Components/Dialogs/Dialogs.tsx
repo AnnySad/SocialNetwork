@@ -3,7 +3,6 @@ import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {
-    actionType,
     MessagesPageType,
     sendMessagesActionCreator,
     updateNewMessagesBodyActionCreator
@@ -11,7 +10,7 @@ import {
 
 type DialogsType = {
     messagesPage: MessagesPageType
-    dispatch: (action: actionType) => void
+    dispatch: (action: any) => void
 }
 type AddDialogClickType = {
     text: string

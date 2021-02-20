@@ -1,15 +1,13 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import Post1 from "./Post/Post1";
-import {actionType, addPostActionCreator, PostsType, updateNewPostTextActionCreator} from "../../../Redux/State";
+import { PostsType, updateNewPostTextActionCreator} from "../../../Redux/State";
 
 type MyPostsType = {
     posts: Array<PostsType>;
     newPostText: string;
-    dispatch: (action: actionType) => void
+    dispatch: (action: any) => void
 }
-
-
 
 const MyPosts = (props: MyPostsType) => {
 
@@ -20,7 +18,7 @@ const MyPosts = (props: MyPostsType) => {
 
     let addPotsClick = () => {
         // props.addPost()
-        props.dispatch(addPostActionCreator ());
+        props.dispatch({type: "ADD_POST", newText: newPostElement.current?.value});
     }
 
     let onPostChange = () => {
