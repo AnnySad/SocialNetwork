@@ -16,6 +16,7 @@ export type ProfilePageType = {
     newPostText: string
 }
 export type MessagesPageType = {
+    textNewMessages: string;
     messages: Array<MessagesType>
     dialogs: Array<DialogsType>
 }
@@ -25,29 +26,40 @@ export type RoutStateType = {
 }
 export type storeType = {
     _state: RoutStateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    /* addPost: () => void
+     updateNewPostText: (newText: string) => void*/
     getState: () => RoutStateType
     _rerenderEntireTree: () => void
     subscribe: (observer: () => void) => void
     dispatch: (action: actionType) => void
 }
-type addPostDispatchType = {
+export type addPostDispatchType = {
     type: 'ADD_POST'
 }
 
-type updateNewPostTextDispatchType = {
+export type updateNewPostTextDispatchType = {
     type: 'UPDATE_NEW_POST_TEXT'
     newText: string
 }
 
-export type actionType = addPostDispatchType |updateNewPostTextDispatchType
+export type sendMessagesActionCreatorDispatchType = {
+    type: 'SEND_NEW_MESSAGES'
+}
+
+export type updateNewMessagesBodyActionCreatorDispatchType = {
+    type: 'TEXT_NEW_MESSAGES'
+    body: string
+}
+
+export type actionType =
+    addPostDispatchType
+    | updateNewPostTextDispatchType
+    | sendMessagesActionCreatorDispatchType
+    | updateNewMessagesBodyActionCreatorDispatchType
 
 
-
-let store = {
-    _state: {//_делаем приватным
-
+let store: storeType = {
+    _state: {
         profilePage: {
             posts: [
                 {id: 1, message: 'Hi, how are you?', likesCount: 156},
@@ -72,8 +84,10 @@ let store = {
                 {id: 3, name: 'Nika'},
                 {id: 4, name: 'Sonia'},
                 {id: 5, name: 'Ray'}
-            ]
-        }
+            ],
+            textNewMessages: "ww"
+        },
+
 
     },
 
@@ -88,7 +102,7 @@ let store = {
         console.log('State change')
     },
 
-    dispatch (action:addPostDispatchType |updateNewPostTextDispatchType) {
+    dispatch(action: addPostDispatchType | updateNewPostTextDispatchType | sendMessagesActionCreatorDispatchType | updateNewMessagesBodyActionCreatorDispatchType) {
         if (action.type === 'ADD_POST') {
             let newPost = {
                 id: 5,
@@ -98,22 +112,40 @@ let store = {
             this._state.profilePage.posts.push(newPost)
             this._state.profilePage.newPostText = ""; //зануляем
             this._rerenderEntireTree();
-        }
-        else if (action.type === 'UPDATE_NEW_POST_TEXT') {
+        } else if (action.type === 'UPDATE_NEW_POST_TEXT') {
             this._state.profilePage.newPostText = action.newText
             this._rerenderEntireTree();
+        } else if (action.type === 'TEXT_NEW_MESSAGES') {
+            this._state.messagesPage.textNewMessages = action.body;
+            this._rerenderEntireTree()
+        } else if (action.type === 'SEND_NEW_MESSAGES') {
+            debugger
+            let body = this._state.messagesPage.textNewMessages;
+            this._state.messagesPage.textNewMessages = " "; //зануляем
+            this._state.messagesPage.messages.push({id: 6, message: body})
+            this._rerenderEntireTree()
         }
+
     }
 }
 const ADD_POST: string = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT: string = 'UPDATE-NEW-POST-TEXT'
+const TEXT_NEW_MESSAGES: string = 'TEXT_NEW_MESSAGES'
+const SEND_NEW_MESSAGES: string = 'SEND_NEW_MESSAGES'
 
-export const addPostActionCreator = ():addPostDispatchType => ({
-        type: 'ADD_POST'
+export const addPostActionCreator = (): addPostDispatchType => ({
+    type: 'ADD_POST'
 })
 export const updateNewPostTextActionCreator = (newText: string): updateNewPostTextDispatchType => ({
-        type: 'UPDATE_NEW_POST_TEXT', newText: newText
+    type: 'UPDATE_NEW_POST_TEXT', newText: newText
 })
+export const sendMessagesActionCreator = (): sendMessagesActionCreatorDispatchType => ({
+    type: 'SEND_NEW_MESSAGES'
+})
+export const updateNewMessagesBodyActionCreator = (body: string): updateNewMessagesBodyActionCreatorDispatchType => ({
+    type: 'TEXT_NEW_MESSAGES', body: body
+})
+
 
 //window.store=store;//прописать в консоли стайт и увидить , что у нас ест
 export default store;

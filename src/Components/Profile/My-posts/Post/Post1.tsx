@@ -2,7 +2,12 @@ import React from 'react';
 import s from './Post1.module.css';
 
 
-const Post1 = (props) => {
+type Post1PropsType ={
+    message: string
+    likesCount: number
+}
+
+const Post1 = (props: Post1PropsType) => {
     console.log(props.message);
     return <div className={s.item}>
 
