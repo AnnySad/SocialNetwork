@@ -19,14 +19,14 @@ export type ProfilePageType = {
     posts: Array<PostsType>
     newPostText: string
 }
-export type MessagesPageType = {
+export type dialogsPageType = {
     textNewMessages: string;
     messages: Array<MessagesType>
     dialogs: Array<DialogsType>
 }
 export type RoutStateType = {
     profilePage: ProfilePageType
-    messagesPage: MessagesPageType
+    dialogsPage: dialogsPageType
     sidebar: any
 }
 export type storeType = {
@@ -37,31 +37,6 @@ export type storeType = {
     dispatch: (action: any) => void
 }
 
-export type updateNewPostTextDispatchType = {
-    type: 'UPDATE_NEW_POST_TEXT'
-    newText: string
-}
-
-export type sendMessagesActionCreatorDispatchType = {
-    type: 'SEND_NEW_MESSAGES'
-}
-
-export type updateNewMessagesBodyActionCreatorDispatchType = {
-    type: 'TEXT_NEW_MESSAGES'
-    body: string
-}
-
-export const updateNewPostTextActionCreator = (newText: string): updateNewPostTextDispatchType => ({
-    type: 'UPDATE_NEW_POST_TEXT', newText: newText
-})
-export const sendMessagesActionCreator = (): sendMessagesActionCreatorDispatchType => ({
-    type: 'SEND_NEW_MESSAGES'
-})
-export const updateNewMessagesBodyActionCreator = (body: string): updateNewMessagesBodyActionCreatorDispatchType => ({
-    type: 'TEXT_NEW_MESSAGES', body: body
-})
-
-
 let store: storeType = {
     _state: {
         profilePage: {
@@ -71,10 +46,10 @@ let store: storeType = {
                 {id: 3, message: 'BlaBla', likesCount: 10},
                 {id: 4, message: 'I am happy!', likesCount: 90},
             ],
-            newPostText: "Budiuaka"
+            newPostText: ""
         },
 
-        messagesPage: {
+        dialogsPage: {
             messages: [
                 {id: 1, message: 'Hi'},
                 {id: 2, message: 'How are you'},
@@ -89,65 +64,25 @@ let store: storeType = {
                 {id: 4, name: 'Sonia'},
                 {id: 5, name: 'Ray'}
             ],
-            textNewMessages: "ww"
+            textNewMessages: ""
         },
 
         sidebar: {}
     },
 
-    getState() {
-        return this._state
-    },
-    subscribe(observer: () => void) {
-        this._rerenderEntireTree = observer;//паттерн=observer
-    },
-
-    _rerenderEntireTree() {//стало методом
-        console.log('State change')
-    },
+    getState() {return this._state},
+    subscribe(observer: () => void) {this._rerenderEntireTree = observer;},//паттерн=observer
+    _rerenderEntireTree() {console.log('State change')},//стало методом
 
     dispatch: function (action: any ) {
 
         this._state.profilePage = profileReducer(this._state.profilePage, action);
-        this._state.messagesPage = messageReducer(this._state.messagesPage, action);
+        this._state.dialogsPage = messageReducer(this._state.dialogsPage, action);
         this._state.sidebar = sidebarReducer(this._state.sidebar, action);
 
-        /* if (action.type === 'ADD_POST') {
-             let newPost = {
-                 id: 5,
-                 message: this._state.profilePage.newPostText,
-                 likesCount: 0
-             }
-             this._state.profilePage.posts.push(newPost)
-             this._state.profilePage.newPostText = ""; //зануляем
-             this._rerenderEntireTree();
-         } else if (action.type === 'UPDATE_NEW_POST_TEXT') {
-             this._state.profilePage.newPostText = action.newText
-             this._rerenderEntireTree();
-         } else if (action.type === 'TEXT_NEW_MESSAGES') {
-             this._state.messagesPage.textNewMessages = action.body;
-             this._rerenderEntireTree()
-         } else if (action.type === 'SEND_NEW_MESSAGES') {
-             debugger
-             let body = this._state.messagesPage.textNewMessages;
-             this._state.messagesPage.textNewMessages = " "; //зануляем
-             this._state.messagesPage.messages.push({id: 6, message: body})
-             this._rerenderEntireTree()
-         }
-
-     }*/
         this._rerenderEntireTree()
     }
 }
-
-
-/*
-const UPDATE_NEW_POST_TEXT: string = 'UPDATE-NEW-POST-TEXT'
-const TEXT_NEW_MESSAGES: string = 'TEXT_NEW_MESSAGES'
-const SEND_NEW_MESSAGES: string = 'SEND_NEW_MESSAGES'
-*/
-
-
 
 //window.store=store;//прописать в консоли стайт и увидить , что у нас ест
 export default store;

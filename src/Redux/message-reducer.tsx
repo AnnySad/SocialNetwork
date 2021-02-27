@@ -1,26 +1,28 @@
-import {
-    DialogsType,
-    MessagesType,
-    sendMessagesActionCreatorDispatchType,
-    updateNewMessagesBodyActionCreatorDispatchType, updateNewPostTextDispatchType
-} from "./State";
+import {dialogsPageType} from "./State";
 
 const TEXT_NEW_MESSAGES: string = 'TEXT_NEW_MESSAGES'
 const SEND_NEW_MESSAGES: string = 'SEND_NEW_MESSAGES'
 
-type stateMessageReducerType = {  textNewMessages: string;
-    messages: Array<MessagesType>;
-    dialogs: DialogsType [] }
+const messageReducer = (state: dialogsPageType, action: any) => {
+let stateCopy
+    debugger
+    switch (action.type) {
 
-const messageReducer = (state: stateMessageReducerType, action: any) => {
+        case "TEXT_NEW_MESSAGES":
+            let newMessege = {
+                id: 5,
+                message: state.textNewMessages
+            }
+            stateCopy = {...state,
+                messages: [...state.messages, newMessege],
+                textNewMessages: ""
+            }
+            return stateCopy;
 
-    if (action.type === 'TEXT_NEW_MESSAGES') {
-        state.textNewMessages = action.body;
-    } else if (action.type === 'SEND_NEW_MESSAGES') {
-        let body = state.textNewMessages;
-        state.textNewMessages = " "; //зануляем
-        state.messages.push({id: 6, message: body})
+        case "SEND_NEW_MESSAGES": return {...state, textNewMessages: action.newText}
+
+        default: return state
     }
-    return state;
+
 }
 export default messageReducer;

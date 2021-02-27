@@ -8,7 +8,7 @@ import {Route} from "react-router-dom";
 import News from "./Components/News/News";
 import Music from "./Components/Music/Music";
 import Setting from "./Components/Setting/Setting";
-import {MessagesPageType, RoutStateType, storeType} from './Redux/State';
+import {RoutStateType} from './Redux/State';
 
 export type AppType = {
     state: RoutStateType
@@ -25,12 +25,15 @@ const App= (props: AppType) => {
             <div className='app-wrapper-content'>
 
                 <Route path='/dialogs' render={() =>
-                    <Dialogs messagesPage={props.state.messagesPage}
-                       dispatch={props.dispatch}
-                    />}/>
+                    <Dialogs
+                       dialogsPage={props.state.dialogsPage}
+                       dispatch={props.dispatch}/>}/>
                 <Route path='/profile' render={() =>
-                    <Profile profileState={props.state.profilePage}
-                             dispatch={props.dispatch}/>}/>
+
+                    <Profile
+                        profileState={props.state.profilePage}
+                        dispatch={props.dispatch}/>}/>
+
                 <Route path='/news' component={News}/>
                 <Route path='/music' component={Music}/>
                 <Route path='/setting' component={Setting}/>

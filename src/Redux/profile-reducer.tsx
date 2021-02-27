@@ -1,18 +1,15 @@
 import {
-    ProfilePageType,
-    sendMessagesActionCreatorDispatchType,
-    updateNewMessagesBodyActionCreatorDispatchType,
-    updateNewPostTextDispatchType,
+    ProfilePageType
 } from "./State"
 
-const ADD_POST: string = "ADD-POST"
-const UPDATE_NEW_POST_TEXT: string = "UPDATE-NEW-POST-TEXT"
+const ADD_POST: string = 'ADD-POST'
+const UPDATE_NEW_POST_TEXT: string = 'UPDATE-NEW-POST-TEXT'
 
 const profileReducer = (state: ProfilePageType, action: any) => {
     let stateCopy
     switch (action.type) {
 
-        case ADD_POST:
+        case "ADD_POST":
             let newPost = {
                 // id: state.posts[state.posts.length-1].id++,
                 id: 5,
@@ -25,7 +22,7 @@ const profileReducer = (state: ProfilePageType, action: any) => {
             }
             return stateCopy;
 
-        case UPDATE_NEW_POST_TEXT: return {...state, newPostText: action.newText}
+        case "UPDATE_NEW_POST_TEXT": return {...state, newPostText: action.newText}
 
         default: return state
     }

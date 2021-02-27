@@ -2,46 +2,26 @@ import React from "react";
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {
-    MessagesPageType,
-    sendMessagesActionCreator,
-    updateNewMessagesBodyActionCreator
-} from "../../Redux/State"
+import {dialogsPageType} from "../../Redux/State"
 
 type DialogsType = {
-    messagesPage: MessagesPageType
+    dialogsPage: dialogsPageType
     dispatch: (action: any) => void
 }
-type AddDialogClickType = {
-    text: string
-}
+
 const Dialogs: React.FC<DialogsType> = (props) => {
     /*let state = props.store.getState().messagesPage*/
 
     // из массива объектов dialogsData, преобразуем/мапим в массив элементов
-    let dialogsElements = props.messagesPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
-    let messageElements = props.messagesPage.messages.map(m => <Message message={m.message}/>)
-    let newMessageBody = props.messagesPage.textNewMessages
+    let dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
+    let messageElements = props.dialogsPage.messages.map(m => <Message message={m.message}/>)
+    let newMessageBody = props.dialogsPage.textNewMessages
 
     let newDialogElement = React.createRef<HTMLTextAreaElement>();
-    let body = React.createRef<HTMLTextAreaElement>()
 
-    /*let addDialogClick = () => {
-        let text = newDialogElement.current?.value;
-        alert(text)
-    }*/
+    let AddMessage = () => { props.dispatch( {type: "TEXT_NEW_MESSAGES", newText: newDialogElement.current?.value} )}
 
-    let onSendMassageClick = () => {
-
-        props.dispatch(sendMessagesActionCreator())
-    }
-    let onNewMessageChange = () => {
-
-        if (body.current) {
-            props.dispatch(updateNewMessagesBodyActionCreator(body.current.value))
-        }
-    }
-
+    let UpdateMessage = () => {props.dispatch( {type: "SEND_NEW_MESSAGES", newText: newDialogElement.current?.value} )}
 
     return (
         <div className={s.dialogs}>
@@ -55,11 +35,12 @@ const Dialogs: React.FC<DialogsType> = (props) => {
 
             <div>
                 <textarea value={newMessageBody}
-                          onChange={onNewMessageChange}   //что бы он каждый раз менялся
-                          placeholder='Enter your massage' ref={body}> </textarea>
+                          onChange={UpdateMessage}   //что бы он каждый раз менялся
+                          placeholder='Enter your massage'
+                          ref={newDialogElement}> </textarea>
             </div>
             <div>
-                <button onClick={onSendMassageClick}>Send</button>
+                <button onClick={AddMessage}>Send</button>
             </div>
 
         </div>
