@@ -1,11 +1,22 @@
 import {
     ProfilePageType
-} from "./State"
+} from "./Store"
 
 const ADD_POST: string = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT: string = 'UPDATE-NEW-POST-TEXT'
 
-const profileReducer = (state: ProfilePageType, action: any) => {
+
+let initialState = {
+        posts: [
+            {id: 1, message: 'Hi, how are you?', likesCount: 156},
+            {id: 2, message: 'It\'s my first post', likesCount: 20},
+            {id: 3, message: 'BlaBla', likesCount: 10},
+            {id: 4, message: 'I am happy!', likesCount: 90},
+        ],
+        newPostText: ""
+    }
+
+const profileReducer = (state: ProfilePageType = initialState, action: any) => {
     let stateCopy
     switch (action.type) {
 
