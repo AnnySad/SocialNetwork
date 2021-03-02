@@ -9,10 +9,10 @@ import News from "./Components/News/News";
 import Music from "./Components/Music/Music";
 import Setting from "./Components/Setting/Setting";
 import {RoutStateType} from './Redux/Store';
+import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 
 export type AppType = {
-    state: RoutStateType
-    dispatch: (action: any) => void
+    store : any;
 }
 
 const App= (props: AppType) => {
@@ -25,14 +25,16 @@ const App= (props: AppType) => {
             <div className='app-wrapper-content'>
 
                 <Route path='/dialogs' render={() =>
-                    <Dialogs
-                       dialogsPage={props.state.dialogsPage}
-                       dispatch={props.dispatch}/>}/>
-                <Route path='/profile' render={() =>
+                    <DialogsContainer
+                        store={props.store}
+                     />}
+                />
 
+
+                <Route path='/profile' render={() =>
                     <Profile
-                        profileState={props.state.profilePage}
-                        dispatch={props.dispatch}/>}/>
+                      store={props.store}
+                    />}/>
 
                 <Route path='/news' component={News}/>
                 <Route path='/music' component={Music}/>

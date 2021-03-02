@@ -3,14 +3,16 @@ import profileReducer from "./profile-reducer";
 import messageReducer from "./message-reducer";
 import sidebarReducer from "./sidebar-reducer";
 
-type ReduxStoreType = {
-    store: any
-    reducers: any
+
+export type PostsTypeReduxStore ={
+    message: string;
+    likesCount: number;
 }
 
-let reducers = combineReducers({ //tipo state
+let reducers = combineReducers( { //tipo state
     profilePage: profileReducer,
     dialogsPage: messageReducer,
     sidebar: sidebarReducer
 });
 export let store = createStore(reducers);
+

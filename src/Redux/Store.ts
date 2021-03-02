@@ -28,6 +28,7 @@ export type RoutStateType = {
     profilePage: ProfilePageType
     dialogsPage: dialogsPageType
     sidebar: any
+
 }
 export type storeType = {
     _state: RoutStateType

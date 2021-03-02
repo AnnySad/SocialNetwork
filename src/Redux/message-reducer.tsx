@@ -1,7 +1,21 @@
 import {dialogsPageType} from "./Store";
 
-const TEXT_NEW_MESSAGES: string = 'TEXT_NEW_MESSAGES'
-const SEND_NEW_MESSAGES: string = 'SEND_NEW_MESSAGES'
+
+
+export const addMessageActionCreator = (text: string) => {
+    return ({
+            type: 'TEXT_NEW_MESSAGE',
+            text: text
+    }
+        )
+}
+
+export const updateMessageActionCreator = (newText : string | undefined) => {
+    return ({
+        type: 'SEND_NEW_MESSAGES',
+        newText: newText
+    });
+}
 
 let initialState = {
     messages: [
@@ -23,16 +37,16 @@ let initialState = {
 
 const messageReducer = (state: dialogsPageType = initialState, action: any) => {
 let stateCopy
-    debugger
-    switch (action.type) {
 
-        case "TEXT_NEW_MESSAGES":
-            let newMessege = {
-                id: 5,
+    switch (action.type) {
+        case "TEXT_NEW_MESSAGE":
+
+            let newMessage = {
+                id: 6,
                 message: state.textNewMessages
             }
             stateCopy = {...state,
-                messages: [...state.messages, newMessege],
+                messages: [...state.messages, newMessage],
                 textNewMessages: ""
             }
             return stateCopy;
