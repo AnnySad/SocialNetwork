@@ -16,3 +16,4 @@ let reducers = combineReducers( { //tipo state
 });
 export let store = createStore(reducers);
 
+export type StoreType = typeof store

@@ -4,27 +4,37 @@ import Message from "./Message/Message";
 import {dialogsPageType} from "../../Redux/Store"
 import Dialogs from "./Dialogs";
 import {addMessageActionCreator, updateMessageActionCreator} from "../../Redux/message-reducer";
+import StoreContext from "../../StoreContext";
+import {store, StoreType} from "../../Redux/Redux-store";
 
 type DialogsTypeCont = {
-    store: any
+    store: StoreType
 }
 
 const DialogsContainer: React.FC<DialogsTypeCont> = (props) => {
 
-    let dialogsPage = props.store.getState().dialogsPage
-    // let newDialogElement = React.createRef<HTMLTextAreaElement>();
-
-    let onSendMessageClick = (text: string) => {
-
-       props.store.dispatch(addMessageActionCreator(text))
-    }
-
-    let UpdateMessage = (newText: string | undefined) => {
-        props.store.dispatch(updateMessageActionCreator(newText))
-    }
-
     return (
-        <Dialogs dialogsPage={dialogsPage} updateMessage={UpdateMessage} sendMessage={onSendMessageClick}/>
+        <StoreContext.Consumer>
+            {
+                (store) => {
+                let dialogsPage = store.getState().dialogsPage
+                // let newDialogElement = React.createRef<HTMLTextAreaElement>();
+
+                let onSendMessageClick = (text: string) => {
+
+                    store.dispatch(addMessageActionCreator(text))
+                }
+
+                let UpdateMessage = (newText: string | undefined) => {
+                    store.dispatch(updateMessageActionCreator(newText))
+                }
+
+
+                return <Dialogs dialogsPage={dialogsPage} updateMessage={UpdateMessage}
+                                sendMessage={onSendMessageClick}/>
+            }
+            }
+        </StoreContext.Consumer>
     )
 }
 
