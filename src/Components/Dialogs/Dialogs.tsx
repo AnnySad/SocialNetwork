@@ -11,26 +11,28 @@ type DialogsType = {
     textNewMessages: string
 
     addMessageAC: () => void
-    updateMessageAC: (newText: string) => void
+    updateMessageAC: (body: string) => void
 }
 
 const Dialogs: React.FC<DialogsType> = (props) => {
 
     // из массива объектов dialogsData, преобразуем/мапим в массив элементов
-    let dialogsElements = props.dialogs.map((d: any) => <DialogItem name={d.name} id={d.id}/>)
-    let messageElements = props.messages.map((m: any) => <Message message={m.message}/>)
+    let dialogsElements = props.dialogs.map((d: any) => <DialogItem name={d.name} key={d.id} id={d.id}/>)
+    let messageElements = props.messages.map((m: any) => <Message message={m.message} key={m.id}/>)
     let newMessageBody = props.textNewMessages
 
     let newDialogElement = React.createRef<HTMLTextAreaElement>();
 
     let addMessage = () => {
-            let text = props.textNewMessages;
-            // props.sendMessage(text)
+            //let text = props.textNewMessages;
+            props.addMessageAC()
     }
     let onNewMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
     {
         let body = newDialogElement.current?.value;
-        // props.updateMessage("gfd")
+        if (body){
+            props.updateMessageAC(body)
+        }
     }
     return (
         <div className={s.dialogs}>

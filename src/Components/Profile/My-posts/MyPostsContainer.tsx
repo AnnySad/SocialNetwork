@@ -8,4 +8,5 @@ let mapStateToProps = (state: StoreType) =>({
         ...state.profilePage
 })
 
-export default connect(mapStateToProps, {addPost, removePost, updateNewPostText})(MyPosts);
+export default connect(mapStateToProps,
+    {addPost, removePost, updateNewPostText})(MyPosts);

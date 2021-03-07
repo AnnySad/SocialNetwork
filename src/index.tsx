@@ -8,7 +8,7 @@ import {BrowserRouter} from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 
-let rerenderEntireTree = () => {
+
 
     ReactDOM.render(
         <BrowserRouter>
@@ -16,7 +16,5 @@ let rerenderEntireTree = () => {
                 <App />
             </Provider>
         </BrowserRouter>, document.getElementById('root'));
-}
-rerenderEntireTree();
-store.subscribe(rerenderEntireTree)
+
 reportWebVitals();
