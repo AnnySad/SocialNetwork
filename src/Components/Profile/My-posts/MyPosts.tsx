@@ -1,20 +1,25 @@
 import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css';
 import Post1 from "./Post/Post1";
-import {PostsTypeReduxStore} from "../../../Redux/Redux-store";
+import {PostType} from "../../../Redux/profile-reducer";
 
 type MyPostsType = {
-    posts: Array<PostsTypeReduxStore>;
-    newPostText: string;
-    updateNewPostText:(newText: string) => void;
-    addPost:() => void;
+    posts: Array<PostType>,
+    newPostText: string
+
+    addPost:() => void,
+    removePost:(id: number) => void,
+    updateNewPostText:(newText: string) => void
 }
 
 const MyPosts = (props: MyPostsType) => {
 
-
-    let postsElements = props.posts.map(p => <Post1 message={p.message} likesCount={p.likesCount}/>)
-
+    let postsElements = props.posts.map(p => <Post1
+                                                    id={p.id}
+                                                    message={p.message}
+                                                    likesCount={p.likesCount}
+                                                    // removePost={removePost}
+                                             />)
 
     let onAddPotsClick = () => {
         props.addPost()
@@ -31,7 +36,7 @@ const MyPosts = (props: MyPostsType) => {
         <h3>My posts</h3>
         <div>
             <div>
-                <textarea onChange={onPostChange}  value={props.newPostText} />
+                <textarea onChange={onPostChange} value={props.newPostText} />
             </div>
             <div>
                 <button onClick={onAddPotsClick}>Add post</button>

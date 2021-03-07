@@ -1,19 +1,19 @@
 import {combineReducers, createStore} from "redux";
-import profileReducer from "./profile-reducer";
-import messageReducer from "./message-reducer";
+import profileReducer, {PostsType} from "./profile-reducer";
 import sidebarReducer from "./sidebar-reducer";
+import dialogsReducer from "./dialogs-reducer";
 
-
-export type PostsTypeReduxStore ={
-    message: string;
-    likesCount: number;
+type ProfilePageType = {
+    posts: Array<PostsType>
+    newPostText: string
 }
 
-let reducers = combineReducers( { //tipo state
+let reducers = combineReducers( {
     profilePage: profileReducer,
-    dialogsPage: messageReducer,
+    dialogsPage: dialogsReducer,
     sidebar: sidebarReducer
 });
+
 export let store = createStore(reducers);
 
-export type StoreType = typeof store
+export type StoreType = ReturnType<typeof reducers>

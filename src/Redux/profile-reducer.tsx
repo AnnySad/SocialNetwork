@@ -1,27 +1,18 @@
-import {
-    ProfilePageType
-} from "./Store"
-
-export type updateNewPostTextType = {
-    type: 'UPDATE_NEW_POST_TEXT',
-    newText: string
+export type ProfilePageType = {
+    posts: PostsType
+    newPostText: string
+}
+export type PostsType = Array<PostType>
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
 }
 
-export type addPostType = {
-    type:'ADD_POST'
-}
-
-export const addPost = (): addPostType =>
-    (
-        {type: 'ADD_POST' as const}
-)
-
-export const updateNewPostText = (newText: string): updateNewPostTextType =>
-    ({
-        type: 'UPDATE_NEW_POST_TEXT',
-        newText: newText
-    })
-
+type addPostActionType = { type:'ADD-POST' }
+type updateNewPostTextActionType = { type: 'UPDATE-NEW-POST-TEXT', newText: string }
+type removePostActionType = { type: 'REMOVE-POST', id: number }
+type AllActionsType = updateNewPostTextActionType | addPostActionType | removePostActionType
 
 let initialState = {
     posts: [
@@ -32,29 +23,42 @@ let initialState = {
     ],
     newPostText: ""
 }
-const profileReducer = (state: ProfilePageType = initialState, action: any) => {
+const profileReducer = (state: ProfilePageType = initialState, action: AllActionsType): ProfilePageType  => {
+
+
     switch (action.type) {
 
-        case "ADD_POST":
-
-            let newPost = {
-                // id: state.posts[state.posts.length-1].id++,
-                id: 5,
+        case "ADD-POST":
+            let stateCopy;
+            let addPost = {
+                id: state.posts[state.posts.length - 1].id++,
                 message: state.newPostText,
                 likesCount: 0
             }
-           return {
-                ...state,
-               posts: [...state.posts, newPost],
-               newPostText: ""
-           }
+            stateCopy = {...state,
+                posts: [...state.posts, addPost],   // копируем посты + пушим новый
+                newPostText: ""                     // затираем ввод ввод после пуша
+            }
+            return stateCopy;
 
-        case "UPDATE_NEW_POST_TEXT":{
+        case "UPDATE-NEW-POST-TEXT": {
             return {...state, newPostText: action.newText}
         }
-        default:
-            return state
+
+        case "REMOVE-POST": {
+            stateCopy = {...state, posts: {...state.posts}}
+
+            // stateCopy.posts.filter(p => p.id !== action.id)
+
+            return stateCopy
+        }
+
+        default: return state
     }
 }
+// ACTIONS CREATORS
+export const addPost = (): addPostActionType => ({type: "ADD-POST"});
+export const removePost = (id: number): removePostActionType => ({type: "REMOVE-POST", id});
+export const updateNewPostText = (newText: string): updateNewPostTextActionType => ({type: "UPDATE-NEW-POST-TEXT", newText});
 
 export default profileReducer;

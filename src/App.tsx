@@ -3,20 +3,13 @@ import './App.css';
 import Header from "./Components/Header/Header";
 import Navbar from "./Components/Navbar/Navbar";
 import Profile from "./Components/Profile/Profile";
-import Dialogs from "./Components/Dialogs/Dialogs";
 import {Route} from "react-router-dom";
 import News from "./Components/News/News";
 import Music from "./Components/Music/Music";
 import Setting from "./Components/Setting/Setting";
-import {RoutStateType} from './Redux/Store';
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
-import {store} from "./Redux/Redux-store";
 
-export type AppType = {
-    store : any;
-}
-
-const App= (props: AppType) => {
+const App= () => {
 
     return (
         <div className='app-wrapper'>
@@ -26,12 +19,12 @@ const App= (props: AppType) => {
             <div className='app-wrapper-content'>
 
                 <Route path='/dialogs' render={() =>
-                    <DialogsContainer  store={store}/>}
+                    <DialogsContainer />}
                 />
 
 
                 <Route path='/profile' render={() =>
-                    <Profile  store={props.store}/>}/>
+                    <Profile />}/>
 
                 <Route path='/news' component={News}/>
                 <Route path='/music' component={Music}/>
