@@ -16,13 +16,13 @@ export type UsersType={
 
 let initialState = {
     users: [
-            {id: 1, photoUrl: "'https://peopletalk.ru/wp-content/uploads/2016/11/1480331127.jpg'",
+            {id: 1, photoUrl: "https://klike.net/uploads/posts/2020-03/1584091199_1.jpg",
                 followed: true, fullName: 'Andrey', status: "Lubaga", location: {city: "Minsk", country: "Belarus"}},
-            {id: 2, photoUrl: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Femotion-30%2F32%2Fsmile-512.png&imgrefurl=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F5079652%2Favatar_emoji_emoticon_face_feeling_smile_smiley_icon&tbnid=Ou9rkJrTGZnTNM&vet=12ahUKEwi9ht2w7aDvAhUPxCoKHdncBSYQMygAegUIARCkAQ..i&docid=u3GlOitq7VPZcM&w=512&h=512&q=avatar%20smile&hl=ru&ved=2ahUKEwi9ht2w7aDvAhUPxCoKHdncBSYQMygAegUIARCkAQ",
+            {id: 2, photoUrl: "https://png.pngtree.com/element_our/20190530/ourlarge/pngtree-cute-round-avatar-smiley-face-image_1245552.jpg",
                 followed: false, fullName: 'Marina', status: "Friend", location: {city: "Minsk", country: "Belarus"}},
-            {id: 3, photoUrl: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Femotion-30%2F32%2Fsmile-512.png&imgrefurl=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F5079652%2Favatar_emoji_emoticon_face_feeling_smile_smiley_icon&tbnid=Ou9rkJrTGZnTNM&vet=12ahUKEwi9ht2w7aDvAhUPxCoKHdncBSYQMygAegUIARCkAQ..i&docid=u3GlOitq7VPZcM&w=512&h=512&q=avatar%20smile&hl=ru&ved=2ahUKEwi9ht2w7aDvAhUPxCoKHdncBSYQMygAegUIARCkAQ",
+            {id: 3, photoUrl: "https://i.pinimg.com/564x/cf/c4/59/cfc45977aa7f22ef09793d946ce1d25f.jpg",
                 followed: true, fullName: 'Oleg', status: "Samurai", location: {city: "Minsk", country: "Belarus"}},
-            {id: 4, photoUrl: "https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn3.iconfinder.com%2Fdata%2Ficons%2Femotion-30%2F32%2Fsmile-512.png&imgrefurl=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F5079652%2Favatar_emoji_emoticon_face_feeling_smile_smiley_icon&tbnid=Ou9rkJrTGZnTNM&vet=12ahUKEwi9ht2w7aDvAhUPxCoKHdncBSYQMygAegUIARCkAQ..i&docid=u3GlOitq7VPZcM&w=512&h=512&q=avatar%20smile&hl=ru&ved=2ahUKEwi9ht2w7aDvAhUPxCoKHdncBSYQMygAegUIARCkAQ",
+            {id: 4, photoUrl: "https://st3.depositphotos.com/1004920/33738/v/600/depositphotos_337382290-stock-illustration-color-dog-head-miniature-pinscher.jpg",
                 followed: true, fullName: 'Ray', status: "Friend", location: {city: "Minsk", country: "Belarus"}}
        ]
 }

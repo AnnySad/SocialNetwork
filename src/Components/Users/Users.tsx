@@ -50,12 +50,14 @@ const Users = (props: UsersPropsType) => {
         )
     }
 
+
+
     return <div>
         {
             props.users.map((u)=> <div key={u.id}>
             <span>
                 <div>
-                    <img className={styles.userPhoto} src={u.photoUrl} />
+                    <img src={u.photoUrl} className={styles.usersPhoto}  />
                 </div>
 
                 <div>
