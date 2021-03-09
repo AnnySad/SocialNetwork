@@ -6,7 +6,7 @@ type UsersPropsType = {
     users: Array<UsersType>;
     follow: (userID: number) => void
     unfollow: (userID: number) => void
-    setUsers:(param: Array<UsersType>)=> void;
+    setUsers:(users: Array<UsersType>)=> void;
 }
 
 const Users = (props: UsersPropsType) => {
