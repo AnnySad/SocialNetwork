@@ -2,6 +2,7 @@ import {combineReducers, createStore} from "redux";
 import profileReducer, {PostsType} from "./profile-reducer";
 import sidebarReducer from "./sidebar-reducer";
 import dialogsReducer from "./dialogs-reducer";
+import usersReducer from "./users-reducer";
 
 type ProfilePageType = {
     posts: Array<PostsType>
@@ -11,7 +12,8 @@ type ProfilePageType = {
 let reducers = combineReducers( {
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
-    sidebar: sidebarReducer
+    sidebar: sidebarReducer,
+    usersPage: usersReducer
 });
 
 export let store = createStore(reducers);
