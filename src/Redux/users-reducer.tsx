@@ -13,20 +13,19 @@ export type UsersType={
             country: string
         }
 }
-
+// {id: 1, photoUrl: "https://klike.net/uploads/posts/2020-03/1584091199_1.jpg",
+//     followed: true, fullName: 'Andrey', status: "Lubaga", location: {city: "Minsk", country: "Belarus"}},
+// {id: 2, photoUrl: "https://png.pngtree.com/element_our/20190530/ourlarge/pngtree-cute-round-avatar-smiley-face-image_1245552.jpg",
+//     followed: false, fullName: 'Marina', status: "Friend", location: {city: "Minsk", country: "Belarus"}},
+// {id: 3, photoUrl: "https://i.pinimg.com/564x/cf/c4/59/cfc45977aa7f22ef09793d946ce1d25f.jpg",
+//     followed: true, fullName: 'Oleg', status: "Samurai", location: {city: "Minsk", country: "Belarus"}},
+// {id: 4, photoUrl: "https://st3.depositphotos.com/1004920/33738/v/600/depositphotos_337382290-stock-illustration-color-dog-head-miniature-pinscher.jpg",
+//     followed: true, fullName: 'Ray', status: "Friend", location: {city: "Minsk", country: "Belarus"}}
 let initialState = {
-    users: [
-            {id: 1, photoUrl: "https://klike.net/uploads/posts/2020-03/1584091199_1.jpg",
-                followed: true, fullName: 'Andrey', status: "Lubaga", location: {city: "Minsk", country: "Belarus"}},
-            {id: 2, photoUrl: "https://png.pngtree.com/element_our/20190530/ourlarge/pngtree-cute-round-avatar-smiley-face-image_1245552.jpg",
-                followed: false, fullName: 'Marina', status: "Friend", location: {city: "Minsk", country: "Belarus"}},
-            {id: 3, photoUrl: "https://i.pinimg.com/564x/cf/c4/59/cfc45977aa7f22ef09793d946ce1d25f.jpg",
-                followed: true, fullName: 'Oleg', status: "Samurai", location: {city: "Minsk", country: "Belarus"}},
-            {id: 4, photoUrl: "https://st3.depositphotos.com/1004920/33738/v/600/depositphotos_337382290-stock-illustration-color-dog-head-miniature-pinscher.jpg",
-                followed: true, fullName: 'Ray', status: "Friend", location: {city: "Minsk", country: "Belarus"}}
-       ]
+    users: [] as Array<any>
 }
-const usersReducer = (state: any = initialState, action: any): any => {
+type InitialStateType = typeof  initialState
+const usersReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
 
 
     switch (action.type) {
@@ -55,12 +54,12 @@ const usersReducer = (state: any = initialState, action: any): any => {
                     }
                 )
             }
-
         case SET_USERS: {
             return {
                 ...state, users: [...state.users, ...action.users]
             }
         }
+
 
         default:
             return state
@@ -68,10 +67,14 @@ const usersReducer = (state: any = initialState, action: any): any => {
 }
 // ACTIONS CREATORS
 
-export const followAC = (userId: number) => ({type: "FOLLOW", userId})
-export const unfollowAC = (userId: number) => ({type: "UNFOLLOW", userId})
-export const setUsersAC = (users: string) => ({type: "SET_USERS", users})
+export const follow = (userId: number) => ({type: FOLLOW, userId} as const)
+export const unfollow = (userId: number) => ({type: UNFOLLOW, userId} as const)
+export const setUsers = (users: Array<any>) => ({type: SET_USERS, users} as const)
 
+type ActionsType =
+    | ReturnType<typeof follow>
+    | ReturnType<typeof unfollow>
+    | ReturnType<typeof setUsers>
 
 export default usersReducer;
 

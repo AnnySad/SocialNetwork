@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styles from './users.module.css'
 import {UsersType} from "../../Redux/users-reducer";
 import axios from "axios";
@@ -20,14 +20,21 @@ import {UsersPropsType} from "./UsersContainer";
 // }
 
 const Users = (props: UsersPropsType) => {
-    if (props.users.length === 0) {
+    useEffect(()=> {
         axios.get("https://social-network.samuraijs.com/api/1.0/users")
             .then((response) => {
+                debugger
                     props.setUsers(response.data.items)
                 }
             )
-    }
-
+    },[])
+    // if (props.users.length === 0) {
+    //     axios.get("https://social-network.samuraijs.com/api/1.0/users")
+    //         .then((response) => {
+    //                 props.setUsers(response.data.items)
+    //             }
+    //         )
+    // }
 
     return <div>
         {
