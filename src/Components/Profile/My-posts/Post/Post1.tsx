@@ -6,7 +6,7 @@ type Post1PropsType ={
     message: string
     likesCount: number
 
-    // removePost:(id: number) => any
+
 }
 
 const Post1 = (props: Post1PropsType) => {

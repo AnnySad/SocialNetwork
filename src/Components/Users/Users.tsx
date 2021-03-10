@@ -1,23 +1,9 @@
 import React, {useEffect} from "react";
 import styles from './users.module.css'
-import {UsersType} from "../../Redux/users-reducer";
 import axios from "axios";
 import userPhoto from "../../assets/img/user.png.jpg"
 import {UsersPropsType} from "./UsersContainer";
 
-/*type UsersPropsType = {
-    users: Array<UsersType>
-    follow: (userID: number) => void
-    unfollow: (userID: number) => void
-    setUsers: (users: Array<UsersType>) => void
-}*/
-// type ResponseType = {
-//     data: { items: any; }
-//     users: any;
-//     follow: (userID: number) => void
-//     unfollow: (userID: number) => void
-//     setUsers: (users: any) => void;
-// }
 
 const Users = (props: UsersPropsType) => {
     useEffect(()=> {
@@ -38,7 +24,7 @@ const Users = (props: UsersPropsType) => {
 
     return <div>
         {
-            props.users.map((u: any) => <div key={u.id}>
+            props.users.map((u) => <div key={u.id}>
             <span>
                 <div>
                     <img src={u.photos.small != null ? u.photos.small : userPhoto} className={styles.usersPhoto}/>

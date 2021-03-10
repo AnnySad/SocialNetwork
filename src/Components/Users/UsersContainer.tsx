@@ -7,7 +7,7 @@ import {AppStateType} from "../../Redux/Redux-store";
 type MDTPType = {
     follow: (userID: number) => void
     unfollow: (userID: number) => void
-    setUsers: (users: Array<any>) => void
+    setUsers: (users: Array<UsersType>) => void
 }
 
 type MSTPType = {
