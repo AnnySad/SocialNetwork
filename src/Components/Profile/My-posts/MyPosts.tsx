@@ -16,6 +16,7 @@ const MyPosts = (props: MyPostsType) => {
 
     let postsElements = props.posts.map(p => <Post1
                                                     id={p.id}
+                                                    key={p.id}
                                                     message={p.message}
                                                     likesCount={p.likesCount}
                                                     // removePost={removePost}

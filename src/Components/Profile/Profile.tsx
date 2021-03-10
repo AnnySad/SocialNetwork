@@ -6,7 +6,7 @@ const Profile = () => {
 
     return <div>
         <ProfileInfo/>
-        <MyPostsContainer />
+        <MyPostsContainer/>
     </div>
 }
 export default Profile;

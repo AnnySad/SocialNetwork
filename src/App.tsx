@@ -10,7 +10,7 @@ import Setting from "./Components/Setting/Setting";
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import UsersContainer from "./Components/Users/UsersContainer";
 
-const App= () => {
+const App = () => {
 
     return (
         <div className='app-wrapper'>
@@ -20,21 +20,19 @@ const App= () => {
             <div className='app-wrapper-content'>
 
                 <Route path='/dialogs' render={() =>
-                    <DialogsContainer />}
+                    <DialogsContainer/>}
                 />
 
 
                 <Route path='/profile' render={() =>
-                    <Profile />}/>
+                    <Profile/>}/>
 
                 <Route path='/news' component={News}/>
                 <Route path='/music' component={Music}/>
                 <Route path='/setting' component={Setting}/>
 
 
-                <Route path='/users'  render={() =>
-                    <UsersContainer /> }/>
-
+                <Route path='/users' render={() => <UsersContainer/>}/>
 
 
             </div>

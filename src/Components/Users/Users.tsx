@@ -1,82 +1,63 @@
 import React from "react";
 import styles from './users.module.css'
 import {UsersType} from "../../Redux/users-reducer";
+import axios from "axios";
+import userPhoto from "../../assets/img/user.png.jpg"
+import {UsersPropsType} from "./UsersContainer";
 
-type UsersPropsType = {
-    users: Array<UsersType>;
+/*type UsersPropsType = {
+    users: Array<UsersType>
     follow: (userID: number) => void
     unfollow: (userID: number) => void
-    setUsers:(users: Array<UsersType>)=> void;
-}
+    setUsers: (users: Array<UsersType>) => void
+}*/
+// type ResponseType = {
+//     data: { items: any; }
+//     users: any;
+//     follow: (userID: number) => void
+//     unfollow: (userID: number) => void
+//     setUsers: (users: any) => void;
+// }
 
 const Users = (props: UsersPropsType) => {
-    if (props.users.length === 0)
-    {
-        props.setUsers(
-            [
-               /* {
-                    id: 1,
-                    photoUrl: 'https://peopletalk.ru/wp-content/uploads/2016/11/1480331127.jpg',
-                    followed: true,
-                    fullName: 'Andrey',
-                    status: "Lubaga",
-                    location: {city: "Minsk", country: "Belarus"}
-                },
-                {
-                    id: 2,
-                    photoUrl: 'https://peopletalk.ru/wp-content/uploads/2016/11/1480331127.jpg',
-                    followed: false,
-                    fullName: 'Marina',
-                    status: "Friend",
-                    location: {city: "Minsk", country: "Belarus"}
-                },
-                {
-                    id: 3,
-                    photoUrl: 'https://peopletalk.ru/wp-content/uploads/2016/11/1480331127.jpg',
-                    followed: true,
-                    fullName: 'Oleg',
-                    status: "Samurai",
-                    location: {city: "Minsk", country: "Belarus"}
-                },
-                {
-                    id: 4,
-                    photoUrl: 'https://peopletalk.ru/wp-content/uploads/2016/11/1480331127.jpg',
-                    followed: true,
-                    fullName: 'Ray',
-                    status: "Friend",
-                    location: {city: "Minsk", country: "Belarus"}
-                }*/
-            ]
-        )
+    if (props.users.length === 0) {
+        axios.get("https://social-network.samuraijs.com/api/1.0/users")
+            .then((response) => {
+                    props.setUsers(response.data.items)
+                }
+            )
     }
-
 
 
     return <div>
         {
-            props.users.map((u)=> <div key={u.id}>
+            props.users.map((u: any) => <div key={u.id}>
             <span>
                 <div>
-                    <img src={u.photoUrl} className={styles.usersPhoto}  />
+                    <img src={u.photos.small != null ? u.photos.small : userPhoto} className={styles.usersPhoto}/>
                 </div>
 
                 <div>
                     {
                         u.followed
-                            ? <button onClick={ ()=> {props.unfollow(u.id)}}> unfollow</button>
-                            : <button onClick={ ()=> {props.follow(u.id)}}> Follow</button>
+                            ? <button onClick={() => {
+                                props.unfollow(u.id)
+                            }}> unfollow</button>
+                            : <button onClick={() => {
+                                props.follow(u.id)
+                            }}> Follow</button>
                     }
 
                 </div>
             </span>
                 <span>
                     <span>
-                        <div>{u.fullName}</div>
+                        <div>{u.name}</div>
                         <div>{u.status}</div>
                     </span>
                     <span>
-                        <div>{u.location.country}</div>
-                        <div>{u.location.city}</div>
+                        <div>{"u.location.country"}</div>
+                        <div>{"u.location.city"}</div>
                     </span>
                 </span>
             </div>)}

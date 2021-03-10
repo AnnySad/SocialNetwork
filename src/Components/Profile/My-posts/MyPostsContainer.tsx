@@ -1,10 +1,10 @@
 import React from 'react';
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
-import {StoreType} from "../../../Redux/Redux-store";
+import {AppStateType} from "../../../Redux/Redux-store";
 import {addPost, removePost, updateNewPostText} from "../../../Redux/profile-reducer";
 
-let mapStateToProps = (state: StoreType) =>({
+let mapStateToProps = (state: AppStateType) =>({
         ...state.profilePage
 })
 

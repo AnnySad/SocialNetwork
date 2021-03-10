@@ -29,9 +29,10 @@ const profileReducer = (state: ProfilePageType = initialState, action: AllAction
     switch (action.type) {
 
         case "ADD-POST":
-            let stateCopy;
+            debugger
+            let stateCopy = {...state};
             let addPost = {
-                id: state.posts[state.posts.length - 1].id++,
+                id: state.posts[state.posts.length - 1].id + 1,
                 message: state.newPostText,
                 likesCount: 0
             }
@@ -46,11 +47,11 @@ const profileReducer = (state: ProfilePageType = initialState, action: AllAction
         }
 
         case "REMOVE-POST": {
-            stateCopy = {...state, posts: {...state.posts}}
+           return {...state, posts: {...state.posts}}
 
             // stateCopy.posts.filter(p => p.id !== action.id)
 
-            return stateCopy
+            // return stateCopy
         }
 
         default: return state

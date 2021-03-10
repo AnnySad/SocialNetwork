@@ -3,23 +3,27 @@ import {connect} from "react-redux";
 import Users from "./Users";
 import {Dispatch} from "redux";
 import {followAC, setUsersAC, unfollowAC, UsersType} from "../../Redux/users-reducer";
+import {AppStateType} from "../../Redux/Redux-store";
 
 type MDTPType = {
-    followAC: (userID: number) => void
-    unFollowAC: (userID: number) => void
+    follow: (userID: number) => void
+    unfollow: (userID: number) => void
+    setUsers: (users: Array<any>) => void
 }
 
-export type MSTPType = {
-usersPage: { users:  Array<UsersType>; }
+type MSTPType = {
+    users: Array<UsersType>;
 }
 
-let mapStateToProps = (state: MSTPType) => {
+export type UsersPropsType = MSTPType & MDTPType
+
+let mapStateToProps = (state: AppStateType): MSTPType => {
     return {
         users: state.usersPage.users
     }
 }
 
-let mapDispatchToProps = (dispatch: Dispatch) => {
+let mapDispatchToProps = (dispatch: Dispatch): MDTPType => {
     return {
         follow: (userId: number) => {
             dispatch(followAC(userId))
