@@ -9,7 +9,7 @@ import Music from "./Components/Music/Music";
 import Setting from "./Components/Setting/Setting";
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import UsersContainer from "./Components/Users/UsersContainer";
-import {follow, unfollow} from "./Redux/users-reducer";
+
 
 const App = () => {
 
@@ -33,8 +33,7 @@ const App = () => {
                 <Route path='/setting' component={Setting}/>
 
 
-                <Route path='/users' render={() => <UsersContainer
-                 />}/>
+                <Route path='/users' render={() => <UsersContainer/>}/>
 
 
             </div>

@@ -13,25 +13,17 @@ type UsersPropsType = {
     setUsers: (users: Array<UsersType>) => void
 }
 
-/*: { id: React.Key | null | undefined; photos:
-{ small: string | null | undefined; }; followed: any; name: boolean
-| React.ReactChild | React.ReactFragment | React.ReactPortal
-| null | undefined; status: boolean | React.ReactChild
-| React.ReactFragment | React.ReactPortal | null | undefined; }*/
 
 class Users extends React.Component <UsersPropsType> {
 
-    constructor(props: UsersPropsType) {
-        super(props);
+componentDidMount() {
+    axios.get("https://social-network.samuraijs.com/api/1.0/users")
+        .then((response) => {
+                this.props.setUsers(response.data.items)
+            }
+        )
 
-            axios.get("https://social-network.samuraijs.com/api/1.0/users")
-                .then((response) => {
-                    this.props.setUsers(response.data.items)
-                }
-                )
-
-    }
-
+}
 
 
     render() {
