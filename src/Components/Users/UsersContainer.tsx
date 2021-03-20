@@ -36,4 +36,8 @@ let mapStateToProps = (state: AppStateType): MSTPType => {
 //     }
 // }
 
-export default connect(mapStateToProps, {setUsers, follow, unfollow})(Users)
+
+
+let UsersContainer = connect(mapStateToProps, {setUsers, follow, unfollow})(Users)
+
+export default UsersContainer

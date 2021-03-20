@@ -1,30 +1,43 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styles from './users.module.css'
 import axios from "axios";
 import userPhoto from "../../assets/img/user.png.jpg"
-import {UsersPropsType} from "./UsersContainer";
+import {UsersType} from "../../Redux/users-reducer";
 
 
-const Users = (props: UsersPropsType) => {
-    useEffect(()=> {
-        axios.get("https://social-network.samuraijs.com/api/1.0/users")
-            .then((response) => {
-                debugger
-                    props.setUsers(response.data.items)
+
+type UsersPropsType = {
+    users: Array<UsersType>;
+    follow: (userID: number) => void
+    unfollow: (userID: number) => void
+    setUsers: (users: Array<UsersType>) => void
+}
+
+/*: { id: React.Key | null | undefined; photos:
+{ small: string | null | undefined; }; followed: any; name: boolean
+| React.ReactChild | React.ReactFragment | React.ReactPortal
+| null | undefined; status: boolean | React.ReactChild
+| React.ReactFragment | React.ReactPortal | null | undefined; }*/
+
+class Users extends React.Component <UsersPropsType> {
+
+    constructor(props: UsersPropsType) {
+        super(props);
+
+            axios.get("https://social-network.samuraijs.com/api/1.0/users")
+                .then((response) => {
+                    this.props.setUsers(response.data.items)
                 }
-            )
-    },[])
-    // if (props.users.length === 0) {
-    //     axios.get("https://social-network.samuraijs.com/api/1.0/users")
-    //         .then((response) => {
-    //                 props.setUsers(response.data.items)
-    //             }
-    //         )
-    // }
+                )
 
-    return <div>
-        {
-            props.users.map((u) => <div key={u.id}>
+    }
+
+
+
+    render() {
+        return <div>
+            {
+                this.props.users.map((u) => <div key={u.id}>
             <span>
                 <div>
                     <img src={u.photos.small != null ? u.photos.small : userPhoto} className={styles.usersPhoto}/>
@@ -34,16 +47,16 @@ const Users = (props: UsersPropsType) => {
                     {
                         u.followed
                             ? <button onClick={() => {
-                                props.unfollow(u.id)
+                                this.props.unfollow(u.id)
                             }}> unfollow</button>
                             : <button onClick={() => {
-                                props.follow(u.id)
+                                this.props.follow(u.id)
                             }}> Follow</button>
                     }
 
                 </div>
             </span>
-                <span>
+                    <span>
                     <span>
                         <div>{u.name}</div>
                         <div>{u.status}</div>
@@ -53,7 +66,8 @@ const Users = (props: UsersPropsType) => {
                         <div>{"u.location.city"}</div>
                     </span>
                 </span>
-            </div>)}
-    </div>
+                </div>)}
+        </div>
 }
-export default Users
+}
+export default Users;
