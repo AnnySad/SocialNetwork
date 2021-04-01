@@ -8,26 +8,55 @@ import {UsersType} from "../../Redux/users-reducer";
 
 type UsersPropsType = {
     users: Array<UsersType>;
-    follow: (userID: number) => void
-    unfollow: (userID: number) => void
+    pageSize: number;
+    currentPage: number;
+    totalUsersCount: number;
+    setCurrentPage: (p:number)=> void;
+    setTotalUsersCount: (totalUsersCount:number)=> void;
+    follow: (userID: number) => void;
+    unfollow: (userID: number) => void;
     setUsers: (users: Array<UsersType>) => void
 }
 
 
 class Users extends React.Component <UsersPropsType> {
-
+// делаем запросы на сервак
 componentDidMount() {
-    axios.get("https://social-network.samuraijs.com/api/1.0/users")
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
         .then((response) => {
                 this.props.setUsers(response.data.items)
+                this.props.setTotalUsersCount(response.data.totalCount)
             }
         )
 
 }
-
+onPageChanged = (p: number) => {
+    this.props.setCurrentPage(p);
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=
+    ${p}&count=${this.props.pageSize}`)
+        .then((response) => {
+                this.props.setUsers(response.data.items)
+            }
+        )
+}
 
     render() {
+let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize) //округляем в большую сторону
+let pages = [];
+for ( let i=1; i <= pagesCount; i++) {
+    pages.push(i);
+}
         return <div>
+            <div>
+                {pages.map(p => {
+                 return   <span
+                 onClick={()=> {
+                     this.onPageChanged(p)
+                 }}
+                 className ={p === this.props.currentPage ?  styles.selectedPage : "" }
+                 > {p}</span>
+                })}
+            </div>
             {
                 this.props.users.map((u) => <div key={u.id}>
             <span>
