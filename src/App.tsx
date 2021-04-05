@@ -33,7 +33,7 @@ const App = () => {
                 <Route path='/setting' component={Setting}/>
 
 
-                <Route path='/users' render={() => <UsersContainer/>}/>
+                <Route path='/users' render={() => <UsersContainer />}/>
 
 
             </div>
