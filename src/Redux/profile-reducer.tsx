@@ -1,6 +1,9 @@
+import {ProfileProps} from "../Components/Profile/Profile";
+
 export type ProfilePageType = {
     posts: PostsType
     newPostText: string
+    profile: ProfileType | null
 }
 export type PostsType = Array<PostType>
 export type PostType = {
@@ -9,19 +12,47 @@ export type PostType = {
     likesCount: number
 }
 
+export type ProfileType = {
+    aboutMe: string
+    contacts: Array<ContactsType>
+    lookingForAJob: true,
+    lookingForAJobDescription: string
+    fullName: string
+    userId: 2,
+    photos:Array<PhotosType>
+}
+
+type ContactsType = {
+    facebook: string
+    website: null
+    vk: string
+    twitter: string
+    instagram: string
+    youtube: null
+    github: string
+    mainLink: null
+}
+
+type PhotosType = {
+    small: string
+    large: string
+}
 type addPostActionType = { type:'ADD-POST' }
 type updateNewPostTextActionType = { type: 'UPDATE-NEW-POST-TEXT', newText: string }
 type removePostActionType = { type: 'REMOVE-POST', id: number }
-type AllActionsType = updateNewPostTextActionType | addPostActionType | removePostActionType
+type setUserProfile = { type: 'SET-USER-PROFILE', profile: ProfileType }
 
-let initialState = {
+type AllActionsType = updateNewPostTextActionType | addPostActionType | removePostActionType | setUserProfile
+
+let initialState: ProfilePageType = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 156},
         {id: 2, message: 'It\'s my first post', likesCount: 20},
         {id: 3, message: 'BlaBla', likesCount: 10},
         {id: 4, message: 'I am happy!', likesCount: 90},
     ],
-    newPostText: ""
+    newPostText: "",
+    profile: null
 }
 const profileReducer = (state: ProfilePageType = initialState, action: AllActionsType): ProfilePageType  => {
 
@@ -54,6 +85,12 @@ const profileReducer = (state: ProfilePageType = initialState, action: AllAction
             // return stateCopy
         }
 
+        case "SET-USER-PROFILE": {
+            return {
+                ...state, profile: action.profile
+            }
+        }
+
         default: return state
     }
 }
@@ -61,5 +98,7 @@ const profileReducer = (state: ProfilePageType = initialState, action: AllAction
 export const addPost = (): addPostActionType => ({type: "ADD-POST"});
 export const removePost = (id: number): removePostActionType => ({type: "REMOVE-POST", id});
 export const updateNewPostText = (newText: string): updateNewPostTextActionType => ({type: "UPDATE-NEW-POST-TEXT", newText});
+export const setUserProfile = (profile: ProfileType): setUserProfile => ({type: 'SET-USER-PROFILE', profile });
+
 
 export default profileReducer;

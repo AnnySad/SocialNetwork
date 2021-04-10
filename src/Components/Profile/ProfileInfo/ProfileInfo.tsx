@@ -1,8 +1,16 @@
 import React from 'react';
 import s from './ProfileInfo.module.css';
 import p from '../Profile.module.css';
+import Tenor from "../../common/tenor/tenor";
 
-const ProfileInfo = () => {
+
+type ProfileInfoPropsType = {
+    profile: any
+}
+const ProfileInfo = (props:ProfileInfoPropsType) => {
+    if (!props.profile){
+        return <Tenor/>
+    }
     return <div >
         <div className={p.content}>
             <img
@@ -10,6 +18,7 @@ const ProfileInfo = () => {
         </div>
 
         <div className={s.descriptionBlock}>
+            <img src={props.profile.photos.large}/>
             ava + description
         </div>
     </div>

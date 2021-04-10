@@ -52,7 +52,7 @@ type UsersAPIPropsType = {
 
 export type UsersPropsType = MSTPType & MDTPType
 
-class UsersAPIComponent extends React.Component <UsersAPIPropsType> {
+class UsersContainer extends React.Component <UsersAPIPropsType> {
 // делаем запросы на сервак
     componentDidMount() {
         this.props.toggleIsFetching(true);
@@ -129,7 +129,6 @@ let mapStateToProps = (state: AppStateType): MSTPType => {
 // }
 
 
-let UsersContainer = connect(mapStateToProps,
-    {toggleIsFetching, setTotalUsersCount, setCurrentPage, setUsers, follow, unfollow})(UsersAPIComponent)
 
-export default UsersContainer
+export default connect(mapStateToProps,
+    {toggleIsFetching, setTotalUsersCount, setCurrentPage, setUsers, follow, unfollow})(UsersContainer)
