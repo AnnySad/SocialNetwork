@@ -34,21 +34,21 @@ let Users = (props: UsersPropsType) => {
             })}
         </div>
         {
-            props.users.map((u) => <div key={u.id}>
+            props.users.map((u) => <div key={u.id} className={styles.userContainer}>
             <span>
-                <div>
+                <div className={styles.photo}>
                     <NavLink to={'/profile/' + u.id}>
-                    <img src={u.photos.small != null ? u.photos.small : userPhoto} className={styles.usersPhoto}/>
+                    <img src={u.photos.small != null ? u.photos.small : userPhoto} alt=""/>
                     </NavLink>
                 </div>
 
-                <div>
+                 <div  className={styles.btnWrap}>
                     {
-                        u.followed
-                            ? <button onClick={() => {
+                        u.followed ?
+                            <button className={styles.btnMode} onClick={() => {
                                 props.unfollow(u.id)
                             }}> unfollow</button>
-                            : <button onClick={() => {
+                            : <button className={styles.btnMode} onClick={() => {
                                 props.follow(u.id)
                             }}> Follow</button>
                     }
@@ -56,10 +56,10 @@ let Users = (props: UsersPropsType) => {
                 </div>
             </span>
                 <span>
-                    <span>
-                        <div>{u.name}</div>
-                        <div>{u.status}</div>
-                    </span>
+                    <div className={styles.userDescription}>
+                        <h5>{u.name}</h5>
+                        <p>{u.status}</p>
+                    </div>
                     <span>
                         <div>{"u.location.country"}</div>
                         <div>{"u.location.city"}</div>
