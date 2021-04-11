@@ -18,7 +18,7 @@ export type ProfileType = {
     lookingForAJob: true,
     lookingForAJobDescription: string
     fullName: string
-    userId: 2,
+    userId: number,
     photos:Array<PhotosType>
 }
 
