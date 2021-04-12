@@ -30,7 +30,7 @@ let Users = (props: UsersPropsType) => {
                         props.onPageChanged(p)
                     }}
                     className={p === props.currentPage ? styles.selectedPage : ""}
-                > {p}</span>
+                >{p}</span>
             })}
         </div>
         {

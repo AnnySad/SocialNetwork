@@ -11,3 +11,12 @@
     height: 50px;
     border-radius: 10px;
 }
+.loginBlock {
+    float: right;
+}
+
+.loginBlock a {
+    color: white;
+    text-decoration: none;
+}
+
