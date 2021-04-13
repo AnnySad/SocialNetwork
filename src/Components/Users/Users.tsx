@@ -3,6 +3,7 @@ import userPhoto from "../../assets/img/user.png.jpg";
 import React from "react";
 import {UsersType} from "../../Redux/users-reducer";
 import {NavLink} from 'react-router-dom';
+import axios from "axios";
 
 type UsersPropsType = |{
     users: Array<UsersType>;
@@ -21,6 +22,7 @@ let Users = (props: UsersPropsType) => {
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
+
 
     return <div>
         <div>
@@ -42,14 +44,41 @@ let Users = (props: UsersPropsType) => {
                     </NavLink>
                 </div>
 
-                 <div  className={styles.btnWrap}>
+                 <div className={styles.btnWrap}>
                     {
                         u.followed ?
                             <button className={styles.btnMode} onClick={() => {
-                                props.unfollow(u.id)
+                                //хотим отписаться и делаем post-запрос на сервер
+                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    {withCredentials: true,
+                                        headers:{ //передаем ключ
+                                        "API-KEY": "1b870066-a689-4dee-839d-63ffa07d2f22"
+                                        }
+                                    })
+                                    .then((response) => {
+                                            if (response.data.resultCode == 0) {
+                                                props.unfollow(u.id)
+                                            }
+                                        }
+                                    )
+
+
                             }}> unfollow</button>
                             : <button className={styles.btnMode} onClick={() => {
-                                props.follow(u.id)
+                                //хотим подписаться и делаем post-запрос на сервер
+                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {},
+                                    {withCredentials: true,
+                                        headers:{ //передаем ключ
+                                            "API-KEY": "1b870066-a689-4dee-839d-63ffa07d2f22"
+                                        }})
+                                    .then((response) => {
+                                            if (response.data.resultCode == 0) {
+                                                props.follow(u.id)
+                                            }
+                                        }
+                                    )
+
+
                             }}> Follow</button>
                     }
 
