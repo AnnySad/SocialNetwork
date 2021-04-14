@@ -6,6 +6,7 @@ import {ProfileType, setUserProfile} from "../../Redux/profile-reducer";
 import {RouteComponentProps, withRouter } from 'react-router-dom';
 import {AppStateType} from "../../Redux/Redux-store";
 import UserPNG from "../common/usersPNG/UserPNG";
+import {usersAPI} from "../../API/api";
 
 type ProfileContainerPropsType = ProfileDetailParams & OwnPropsType
 
@@ -30,7 +31,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, AppSta
         /*if (!userId){
             return <UserPNG/>;
         }*/
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/ ` + userId)
+        usersAPI.getUserProfile(`https://social-network.samuraijs.com/api/1.0/profile/ ` + userId)
             .then((response) => {
                     this.props.setUserProfile(response.data)
                 }
