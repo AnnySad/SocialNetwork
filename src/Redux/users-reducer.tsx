@@ -4,6 +4,7 @@ const SET_USERS = "SET-USERS";
 const SET_CURRENT_PAGE = "SET-CURRENT-PAGE";
 const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT";
 const TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING";
+const TOGGLE_FOLLOWING_PROGRESS = "TOGGLE-FOLLOWING-PROGRESS";
 
 export type UsersType =
     {
@@ -20,33 +21,23 @@ export type UsersType =
     }
 
 
-/*  {
-      id: number,
-      photoUrl: string,
-      followed: boolean,
-      fullName: string,
-      status: string,
-      location: {
-          city: string,
-          country: string
-      }
-}*/
-// {id: 1, photoUrl: "https://klike.net/uploads/posts/2020-03/1584091199_1.jpg",
-//     followed: true, fullName: 'Andrey', status: "Lubaga", location: {city: "Minsk", country: "Belarus"}},
-// {id: 2, photoUrl: "https://png.pngtree.com/element_our/20190530/ourlarge/pngtree-cute-round-avatar-smiley-face-image_1245552.jpg",
-//     followed: false, fullName: 'Marina', status: "Friend", location: {city: "Minsk", country: "Belarus"}},
-// {id: 3, photoUrl: "https://i.pinimg.com/564x/cf/c4/59/cfc45977aa7f22ef09793d946ce1d25f.jpg",
-//     followed: true, fullName: 'Oleg', status: "Samurai", location: {city: "Minsk", country: "Belarus"}},
-// {id: 4, photoUrl: "https://st3.depositphotos.com/1004920/33738/v/600/depositphotos_337382290-stock-illustration-color-dog-head-miniature-pinscher.jpg",
-//     followed: true, fullName: 'Ray', status: "Friend", location: {city: "Minsk", country: "Belarus"}}
 
 
-let initialState = {
+export let initialState: UsersStateType = {
     users: [] as Array<UsersType>,
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,//текущая страница
-    isFetching: true
+    isFetching: true,
+    followingInProgress: []
+}
+export type UsersStateType = {
+    users: Array<UsersType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    isFetching: boolean
+    followingInProgress: Array<number>
 }
 
 type InitialStateType = typeof initialState
@@ -99,6 +90,13 @@ const usersReducer = (state: InitialStateType = initialState, action: ActionsTyp
                 ...state, isFetching: action.isFetching
             }
         }
+        case TOGGLE_FOLLOWING_PROGRESS: {
+            return {
+                ...state, followingInProgress: action.isFetching ?
+                    [...state.followingInProgress, action.userId] :
+                    state.followingInProgress.filter(id => id != action.userId)
+            }
+        }
 
 
         default:
@@ -116,6 +114,8 @@ export const setTotalUsersCount = (totalUsersCount: number) => ({
     totalCount: totalUsersCount
 } as const)
 export const toggleIsFetching = (isFetching:boolean) => ({type:TOGGLE_IS_FETCHING, isFetching} as const)
+export const toggleFollowingProgress = (isFetching:boolean, userId: number) => ({type:TOGGLE_FOLLOWING_PROGRESS, isFetching,
+    userId} as const)
 
 type ActionsType =
     | ReturnType<typeof follow>
@@ -124,6 +124,7 @@ type ActionsType =
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof toggleFollowingProgress>
 
 
 export default usersReducer;

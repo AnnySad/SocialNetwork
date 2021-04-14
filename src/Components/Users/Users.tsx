@@ -3,10 +3,10 @@ import userPhoto from "../../assets/img/user.png.jpg";
 import React from "react";
 import {UsersType} from "../../Redux/users-reducer";
 import {NavLink} from 'react-router-dom';
-import axios from "axios";
 import {usersAPI} from "../../API/api";
 
-type UsersPropsType = |{
+type UsersPropsType = {
+    followingInProgress: Array<number>;
     users: Array<UsersType>;
     currentPage: number;
     pageSize: number;
@@ -14,6 +14,7 @@ type UsersPropsType = |{
     follow: (userID: number) => void;
     unfollow: (userID: number) => void;
     onPageChanged: (p: number) => void;
+    toggleFollowingProgress:(isFetching: boolean, id:number)=> void;
 }
 
 let Users = (props: UsersPropsType) => {
@@ -48,25 +49,29 @@ let Users = (props: UsersPropsType) => {
                  <div className={styles.btnWrap}>
                     {
                         u.followed ?
-                            <button className={styles.btnMode} onClick={() => {
+                            <button disabled={props.followingInProgress.some(id=> id === u.id)} className={styles.btnMode} onClick={() => {
+                                props.toggleFollowingProgress(true, u.id)
                                 //хотим отписаться и делаем post-запрос на сервер
                                 usersAPI.deleteUnfollow(u.id)
                                     .then((data) => {
                                             if (data.resultCode == 0) {
                                                 props.unfollow(u.id)
                                             }
+                                        props.toggleFollowingProgress(false, u.id)
                                         }
                                     )
 
 
                             }}> unfollow</button>
-                            : <button className={styles.btnMode} onClick={() => {
+                            : <button disabled={props.followingInProgress.some(id=> id === u.id)} className={styles.btnMode} onClick={() => {
+                                props.toggleFollowingProgress(true, u.id)
                                 //хотим подписаться и делаем post-запрос на сервер
                                 usersAPI.postFollow(u.id)
                                     .then((data) => {
                                             if (data.resultCode == 0) {
                                                 props.follow(u.id)
                                             }
+                                        props.toggleFollowingProgress(false, u.id)
                                         }
                                     )
 

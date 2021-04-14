@@ -60,7 +60,6 @@ const profileReducer = (state: ProfilePageType = initialState, action: AllAction
     switch (action.type) {
 
         case "ADD-POST":
-            debugger
             let stateCopy = {...state};
             let addPost = {
                 id: state.posts[state.posts.length - 1].id + 1,
