@@ -30,9 +30,9 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, AppSta
         if (!userId){
             return <UserPNG/>;
         }
-        usersAPI.getUserProfile(`https://social-network.samuraijs.com/api/1.0/profile/ ` + userId)
-            .then((response) => {
-                    this.props.setUserProfile(response.data)
+        usersAPI.getUserProfile(userId)
+            .then((data) => {
+                    this.props.setUserProfile(data)
                 }
             )
     }
