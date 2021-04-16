@@ -1,28 +1,23 @@
 import React from "react";
 import {connect} from "react-redux";
 
-import {
-    follow,
-    setCurrentPage,
-    setTotalUsersCount,
-    setUsers, toggleFollowingProgress,
-    toggleIsFetching,
-    unfollow,
-    UsersType
+import { getUsers,
+    setCurrentPage, toggleFollowingProgress,
+    UsersType, follow, unFollow
 } from "../../Redux/users-reducer";
 import {AppStateType} from "../../Redux/Redux-store";
 import Users from "./Users";
 import Tenor from "../common/tenor/tenor";
-import {usersAPI} from "../../API/api";
 
 
 type MDTPType = {
+    toggleFollowingProgress: any
+    getUsers : (currentPage: number, pageSize : number) => void;
     follow: (userID: number) => void
-    unfollow: (userID: number) => void
-    setUsers: (users: Array<UsersType>) => void
+    unFollow: (userID: number) => void
     setCurrentPage: (currentPage: number) => void
-    setTotalUsersCount: (totalCount: number) => void
 }
+
 
 type MSTPType = {
     users: Array<UsersType>;
@@ -31,53 +26,33 @@ type MSTPType = {
     currentPage: number;
     isFetching: boolean;
     followingInProgress: Array<number>
-
 }
 
-type UsersAPIPropsType = {
-    users: Array<UsersType>;
-    totalUsersCount: number;
-    pageSize: number;
-    currentPage: number;
-    isFetching: boolean;
-    followingInProgress: Array<number>
-    follow: (userID: number) => void;
-    unfollow: (userID: number) => void;
-    setCurrentPage: (p: number) => void;
-    setTotalUsersCount: (totalUsersCount: number) => void;
-    setUsers: (users: Array<UsersType>) => void;
-    toggleIsFetching: (value: boolean) => void
-    toggleFollowingProgress:(isFetching: boolean, id:number)=> void;
 
-}
+// type UsersAPIPropsType = {
+//     users: Array<UsersType>;
+//     totalUsersCount: number;
+//     pageSize: number;
+//     currentPage: number;
+//     isFetching: boolean;
+//     followingInProgress: Array<number>
+//     follow: (userID: number) => void;
+//     unfollow: (userID: number) => void;
+//     setCurrentPage: (p: number) => void;
+//     setUsers: (users: Array<UsersType>) => void;
+//     getUsers : (currentPage: number, pageSize : number) => void;
+// }
 
 export type UsersPropsType = MSTPType & MDTPType
 
-class UsersContainer extends React.Component <UsersAPIPropsType, AppStateType> {
+class UsersContainer extends React.Component <UsersPropsType> {
 // делаем запросы на сервак
     componentDidMount() {
-        this.props.toggleIsFetching(true);
-
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then((data) => {
-                    this.props.toggleIsFetching(false)
-                    this.props.setUsers(data.items)
-                    this.props.setTotalUsersCount(data.totalCount)
-                }
-            )
-
+        this.props.getUsers(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChanged = (p: number) => {
-        this.props.setCurrentPage(p);
-        this.props.toggleIsFetching(true)
-
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then((data) => {
-                    this.props.toggleIsFetching(false)
-                    this.props.setUsers(data.items)
-                }
-            )
+        this.props.getUsers(p, this.props.pageSize);
     }
 
     render() {
@@ -91,9 +66,9 @@ class UsersContainer extends React.Component <UsersAPIPropsType, AppStateType> {
                    totalUsersCount={this.props.totalUsersCount}
                    users={this.props.users}
                    follow={this.props.follow}
-                   unfollow={this.props.unfollow}
-                   toggleFollowingProgress={this.props.toggleFollowingProgress}
-                   followingInProgress={this.props.followingInProgress}/>
+                   unFollow={this.props.unFollow}
+                   followingInProgress={this.props.followingInProgress}
+            />
         </>
 
     }
@@ -109,33 +84,8 @@ let mapStateToProps = (state: AppStateType): MSTPType => {
         followingInProgress: state.usersPage.followingInProgress
     }
 }
-//
-// let mapDispatchToProps = (dispatch: Dispatch): MDTPType => {
-//     return {
-//         follow: (userId: number) => {
-//             dispatch(follow(userId))
-//         },
-//         unfollow: (userId: number) => {
-//             dispatch(unfollow(userId))
-//         },
-//         setUsers: (users: Array<any>) => {
-//             dispatch(setUsers(users))
-//         }
-//         setCurrentPage: (p:number) => {
-//             dispatch(setCurrentPage(p))
-//         }
-//         setTotalUsersCount: (totalCount:number) => {
-//             dispatch(setTotalUsersCount(totalCount))
-//         }
-//         toggleIsFetching: (isFetching:boolean) => {
-//             dispatch( toggleIsFetching (isFetching))
-//         }
-//     }
-// }
-
 
 
 export default connect(mapStateToProps,
-    {toggleFollowingProgress,toggleIsFetching,
-        setTotalUsersCount, setCurrentPage, setUsers,
-        follow, unfollow})(UsersContainer)
+    {toggleFollowingProgress, setCurrentPage,
+        follow, unFollow, getUsers})(UsersContainer)
