@@ -1,4 +1,7 @@
 import {ProfileProps} from "../Components/Profile/Profile";
+import {usersAPI} from "../API/api";
+import {followSuccess} from "./users-reducer";
+import {Dispatch} from "react";
 
 export type ProfilePageType = {
     posts: PostsType
@@ -98,6 +101,23 @@ export const addPost = (): addPostActionType => ({type: "ADD-POST"});
 export const removePost = (id: number): removePostActionType => ({type: "REMOVE-POST", id});
 export const updateNewPostText = (newText: string): updateNewPostTextActionType => ({type: "UPDATE-NEW-POST-TEXT", newText});
 export const setUserProfile = (profile: ProfileType): setUserProfile => ({type: 'SET-USER-PROFILE', profile });
+
+export type ProfileActionType  =
+    | ReturnType<typeof addPost>
+    | ReturnType<typeof removePost>
+    | ReturnType<typeof updateNewPostText>
+    | ReturnType<typeof setUserProfile>
+
+type DispatchGetUserProfile = Dispatch<ProfileActionType>
+
+// THUNK CREATORS
+export const getUserProfile = (userId:string)=> {
+    return (dispatch:DispatchGetUserProfile)=>{
+    usersAPI.getUserProfile(userId)
+        .then(data => {
+            dispatch(setUserProfile(data))
+        })}
+};
 
 
 export default profileReducer;

@@ -1,16 +1,14 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {ProfileType, setUserProfile} from "../../Redux/profile-reducer";
+import {getUserProfile, ProfileType} from "../../Redux/profile-reducer";
 import {RouteComponentProps, withRouter } from 'react-router-dom';
 import {AppStateType} from "../../Redux/Redux-store";
-import {usersAPI} from "../../API/api";
-import UserPNG from "../common/usersPNG/UserPNG";
 
 type ProfileContainerPropsType = ProfileDetailParams & OwnPropsType
 
 type MSTP={
-    setUserProfile: (profile: ProfileType)=>void
+    getUserProfile: (userId:string)=>void
 }
 type PathParamsType = {
     userId: string
@@ -28,13 +26,9 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, AppSta
     componentDidMount() {
         let userId = this.props.match.params.userId;
         if (!userId){
-            return <UserPNG/>;
+            userId='15350';
         }
-        usersAPI.getUserProfile(userId)
-            .then((data) => {
-                    this.props.setUserProfile(data)
-                }
-            )
+        this.props.getUserProfile(userId);//отправляем запрос на юзерский профайл
     }
 
     render() {
@@ -48,4 +42,4 @@ profile: state.profilePage.profile
 })
 
 let withUrlDataContainerComponent = withRouter(ProfileContainer)
-export default connect(mapStateToProps, {setUserProfile}) (withUrlDataContainerComponent);
+export default connect(mapStateToProps, {getUserProfile}) (withUrlDataContainerComponent);
