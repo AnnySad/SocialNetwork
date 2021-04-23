@@ -5,14 +5,16 @@ import {Route} from "react-router-dom";
 import News from "./Components/News/News";
 import Music from "./Components/Music/Music";
 import Setting from "./Components/Setting/Setting";
-import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
+import Login from "./Components/login/Login";
+import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
 
 
 const App = () => {
 
+    // @ts-ignore
     return (
         <div className='app-wrapper'>
             <HeaderContainer/>
@@ -20,9 +22,7 @@ const App = () => {
 
             <div className='app-wrapper-content'>
 
-                <Route path='/dialogs' render={() =>
-                    <DialogsContainer/>}
-                />
+                <Route path='/dialogs' render={() => <DialogsContainer/> } />
 
 
                 <Route path='/profile/:userId?' render={() =>
@@ -34,7 +34,10 @@ const App = () => {
 
 
                 <Route path='/users' render={() =>
-                    <UsersContainer  />}/>
+                    <UsersContainer/>}/>
+
+                <Route path='/login' render={() =>
+                    <Login/>}/>
 
 
             </div>
