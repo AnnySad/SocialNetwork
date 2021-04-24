@@ -8,6 +8,7 @@ import { getUsers,
 import {AppStateType} from "../../Redux/Redux-store";
 import Users from "./Users";
 import Tenor from "../common/tenor/tenor";
+import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 type MDTPType = {
@@ -86,6 +87,6 @@ let mapStateToProps = (state: AppStateType): MSTPType => {
 }
 
 
-export default connect(mapStateToProps,
+export default WithAuthRedirect(connect(mapStateToProps,
     {toggleFollowingProgress, setCurrentPage,
-        follow, unFollow, getUsers})(UsersContainer)
+        follow, unFollow, getUsers})(UsersContainer))

@@ -35,9 +35,6 @@ const Dialogs: React.FC<DialogsType> = (props) => {
         }
     }
 
-
-    if(!props.isAuth) return <Redirect to={"/Login"}/>
-
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItem}>
