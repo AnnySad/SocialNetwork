@@ -1,7 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
 
-import { getUsers,
+import {
+    getUsers,
     setCurrentPage, toggleFollowingProgress,
     UsersType, follow, unFollow
 } from "../../Redux/users-reducer";
@@ -9,11 +10,12 @@ import {AppStateType} from "../../Redux/Redux-store";
 import Users from "./Users";
 import Tenor from "../common/tenor/tenor";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 type MDTPType = {
     toggleFollowingProgress: any
-    getUsers : (currentPage: number, pageSize : number) => void;
+    getUsers: (currentPage: number, pageSize: number) => void;
     follow: (userID: number) => void
     unFollow: (userID: number) => void
     setCurrentPage: (currentPage: number) => void
@@ -60,7 +62,7 @@ class UsersContainer extends React.Component <UsersPropsType> {
 
 
         return <>
-            {this.props.isFetching ?  <Tenor /> : null}
+            {this.props.isFetching ? <Tenor/> : null}
             <Users currentPage={this.props.currentPage}
                    onPageChanged={this.onPageChanged}
                    pageSize={this.props.pageSize}
@@ -86,7 +88,8 @@ let mapStateToProps = (state: AppStateType): MSTPType => {
     }
 }
 
+export default compose<React.ComponentType>(
+    WithAuthRedirect,
+    (connect(mapStateToProps, {toggleFollowingProgress, setCurrentPage, follow, unFollow, getUsers})
 
-export default WithAuthRedirect(connect(mapStateToProps,
-    {toggleFollowingProgress, setCurrentPage,
-        follow, unFollow, getUsers})(UsersContainer))
+    ))(UsersContainer)
