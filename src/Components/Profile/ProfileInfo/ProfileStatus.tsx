@@ -1,6 +1,4 @@
 import React from 'react';
-import p from '../ProfileStatus.module.css';
-import Tenor from "../../common/tenor/tenor";
 
 export type ProfileStatusPropsType = {
     status: any
