@@ -40,23 +40,19 @@ export const usersAPI = {
 
 export const profileAPI = {
 
-    getUserProfile(userId = '') {
+    getUserProfile(userId = '15350') {
         return instance.get(`profile/` + userId)
-            .then(response => {
-                return response.data;
-            })
+            .then(response =>
+                 response.data)
     },
+
     getStatus(userId:number){
         return instance.get(`profile/status/` + userId)
-            .then(response => {
-                return response.data;
-            })
+            .then(response => response.data)
     },
     updateStatus(status:string){
         return instance.put(`profile/status` , {status: status})
-            .then(response => {
-                return response.data;
-            })
+            .then(response => response.data)
     }
 
 }

@@ -46,7 +46,12 @@ type setUserProfile = { type: 'SET-USER-PROFILE', profile: ProfileType }
 type setStatus = { type: 'SET-STATUS', status: string }
 type updateStatus = { type: 'UPDATE-STATUS', newStatus: string }
 
-type AllActionsType = updateNewPostTextActionType | addPostActionType | removePostActionType | setUserProfile | setStatus | updateStatus
+type AllActionsType = updateNewPostTextActionType
+    | addPostActionType
+    | removePostActionType
+    | setUserProfile
+    | setStatus
+    | updateStatus
 
 let initialState: ProfilePageType = {
     posts: [

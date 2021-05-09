@@ -7,7 +7,6 @@ import {AppStateType} from "../../Redux/Redux-store";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
-type ProfileContainerPropsType = ProfileDetailParams & OwnPropsType
 
 type MSTP = {
     profile: ProfileType | null
@@ -19,7 +18,6 @@ type PathParamsType = {
 
 type MDPT = {
     getUserProfile: (userId: string) => void
-    // profile: ProfileType | null
     getStatus: (userId: number) => void
     updateStatus: (newStatus: string) => void
 }
@@ -27,6 +25,7 @@ type MDPT = {
 type OwnPropsType = MSTP & MDPT
 
 type ProfileDetailParams = RouteComponentProps<PathParamsType>
+type ProfileContainerPropsType = ProfileDetailParams & OwnPropsType
 
 
 
@@ -38,6 +37,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, AppSta
             userId = '15350';
         }
         this.props.getUserProfile(userId);//отправляем запрос на юзерский профайл
+
         this.props.getStatus(Number(userId))
     }
 
