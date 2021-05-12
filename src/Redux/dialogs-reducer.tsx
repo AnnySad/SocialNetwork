@@ -1,7 +1,6 @@
 export type dialogsPageType = {
     dialogs: DialogsType
     messages: MessagesType
-    textNewMessages: string;
 }
 export type DialogsType = Array<DialogType>
 export type MessagesType = Array<MessageType>
@@ -14,9 +13,8 @@ export type DialogType = {
     name: string
 }
 
-type addMessageActionType = { type: 'TEXT-NEW-MESSAGE'}
-type updateMessageActionType = { type: 'SEND-NEW-MESSAGES', newText: string}
-type AllActionsType = addMessageActionType | updateMessageActionType
+type addMessageActionType = { type: 'TEXT-NEW-MESSAGE', newMessageBody: string}
+type AllActionsType = addMessageActionType
 
 let initialState = {
     dialogs: [
@@ -32,35 +30,37 @@ let initialState = {
         {id: 3, message: 'Yo'},
         {id: 4, message: 'Yo'},
         {id: 5, message: 'Yo'}
-    ],
-    textNewMessages: ""
+    ]
 }
 
 const dialogsReducer = (state: dialogsPageType = initialState, action: AllActionsType): dialogsPageType => {
-let stateCopy
+
 
     switch (action.type) {
 
         case "TEXT-NEW-MESSAGE":
 
-            let newMessage = {
+           /* let newMessage = {
                 id: 6,
-                message: state.textNewMessages
+                message: action.newMessageBody
             }
             stateCopy = {...state,
                 messages: [...state.messages, newMessage],
                 textNewMessages: ""
             }
-            return stateCopy;
+            return stateCopy;*/
+            let body = action.newMessageBody
+            return  {
+                ...state,
+                messages: [...state.messages, {id: 6, message: body}]
+            }
 
-        case "SEND-NEW-MESSAGES": return {...state, textNewMessages: action.newText}
 
         default: return state
     }
 }
 
-export const addMessageAC = (): addMessageActionType => ({type: "TEXT-NEW-MESSAGE"});
-export const updateMessageAC = (newText: string): updateMessageActionType => ({type: "SEND-NEW-MESSAGES", newText});
+export const addMessageAC = (newMessageBody:string): addMessageActionType => ({type: "TEXT-NEW-MESSAGE",newMessageBody});
 
 
 export default dialogsReducer;

@@ -3,7 +3,7 @@ import {Dispatch} from "react";
 
 export type ProfilePageType = {
     posts: PostsType
-    newPostText: string
+   /* newPostText: string*/
     profile: ProfileType | null
     status: string
 }
@@ -39,15 +39,13 @@ type PhotosType = {
     small: string
     large: string
 }
-type addPostActionType = { type: 'ADD-POST' }
-type updateNewPostTextActionType = { type: 'UPDATE-NEW-POST-TEXT', newText: string }
+type addPostActionType = { type: 'ADD-POST', newBodyPost:string }
 type removePostActionType = { type: 'REMOVE-POST', id: number }
 type setUserProfile = { type: 'SET-USER-PROFILE', profile: ProfileType }
 type setStatus = { type: 'SET-STATUS', status: string }
 type updateStatus = { type: 'UPDATE-STATUS', newStatus: string }
 
-type AllActionsType = updateNewPostTextActionType
-    | addPostActionType
+type AllActionsType = addPostActionType
     | removePostActionType
     | setUserProfile
     | setStatus
@@ -60,7 +58,6 @@ let initialState: ProfilePageType = {
         {id: 3, message: 'BlaBla', likesCount: 10},
         {id: 4, message: 'I am happy!', likesCount: 90},
     ],
-    newPostText: "",
     profile: null,
     status: ""
 }
@@ -73,19 +70,19 @@ const profileReducer = (state: ProfilePageType = initialState, action: AllAction
             let stateCopy = {...state};
             let addPost = {
                 id: state.posts[state.posts.length - 1].id + 1,
-                message: state.newPostText,
+                message: action.newBodyPost,
                 likesCount: 0
             }
             stateCopy = {
                 ...state,
                 posts: [...state.posts, addPost],   // копируем посты + пушим новый
-                newPostText: ""                     // затираем ввод ввод после пуша
+               /* newPostText: ""     */                // затираем ввод ввод после пуша
             }
             return stateCopy;
 
-        case "UPDATE-NEW-POST-TEXT": {
+       /* case "UPDATE-NEW-POST-TEXT": {
             return {...state, newPostText: action.newText}
-        }
+        }*/
 
         case "REMOVE-POST": {
             return {...state, posts: {...state.posts}}
@@ -116,20 +113,20 @@ const profileReducer = (state: ProfilePageType = initialState, action: AllAction
     }
 }
 // ACTIONS CREATORS
-export const addPost = (): addPostActionType => ({type: "ADD-POST"});
+export const addPostAC = (newBodyPost:string): addPostActionType => ({type: "ADD-POST", newBodyPost});
 export const removePost = (id: number): removePostActionType => ({type: "REMOVE-POST", id});
-export const updateNewPostText = (newText: string): updateNewPostTextActionType => ({
+/*export const updateNewPostText = (newText: string): updateNewPostTextActionType => ({
     type: "UPDATE-NEW-POST-TEXT",
     newText
-});
+});*/
 export const setUserProfile = (profile: ProfileType): setUserProfile => ({type: 'SET-USER-PROFILE', profile});
 export const setStatus = (status: string) => ({type: 'SET-STATUS', status});
 export const updateSetStatus = (newStatus: string) => ({type: 'UPDATE-STATUS', newStatus});
 
 export type ProfileActionType =
-    | ReturnType<typeof addPost>
-    | ReturnType<typeof removePost>
-    | ReturnType<typeof updateNewPostText>
+    | ReturnType<typeof addPostAC>
+    | ReturnType<typeof removePost>/*
+    | ReturnType<typeof updateNewPostText>*/
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
     | ReturnType<typeof updateSetStatus>

@@ -2,37 +2,56 @@ import React from "react";
 import {connect} from "react-redux";
 import Dialogs from "./Dialogs";
 import {AppStateType} from "../../Redux/Redux-store";
-import {addMessageAC, updateMessageAC} from "../../Redux/dialogs-reducer";
+import {addMessageAC, DialogType, MessageType} from "../../Redux/dialogs-reducer";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
-import {compose} from "redux";
+import {compose, Dispatch} from "redux";
 
+
+type MSTPType = {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+
+}
+
+type MDTPType = {
+    addMessageAC: (text: string) => void
+}
 
 let mapStateToProps = (state: AppStateType) => {
     return {
         dialogs: state.dialogsPage.dialogs,
-        messages: state.dialogsPage.messages,
-        textNewMessages: state.dialogsPage.textNewMessages,
         isAuth: state.auth.isAuth,
-
+        messages: state.dialogsPage.messages
     }
 }
 
 
-let mapDispatchToProps = (dispatch: any) => {
-    return {
-        updateMessage : (newText : string) => {
-            let action = updateMessageAC(newText)
-            dispatch(action)
-        },
-        addMessage : () => {
-            let action = addMessageAC()
-            dispatch(action)
-        }
-    }
-}
+
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps,mapDispatchToProps),
-    WithAuthRedirect)(Dialogs) ; //суть , возьми Dialogs, закинь в WithAuthRedirect, потом что получилось в connect(mapStateToProps,mapDispatchToProps),
+    connect<MSTPType, MDTPType, {}, AppStateType>(mapStateToProps, {addMessageAC}),
+    WithAuthRedirect)(Dialogs); //суть , возьми Dialogs, закинь в WithAuthRedirect, потом что получилось в connect(mapStateToProps,mapDispatchToProps),
 
 
+
+/*
+export default compose<React.ComponentType>(
+    connect<MSTPType, MDTPType, {}, RootState>(MSTP, {addMessageAc}),
+    withAuthRedirect)(Dialogs)
+
+type MSTPType = {
+    dialogs: Array<DialogType>
+    messages: Array<MessageType>
+
+}
+
+type MDTPType = {
+    addMessageAc: (text: string) => void
+}
+
+const MSTP = (state: RootState) => {
+    return {
+        dialogs: state.dialogsPage.dialogs,
+        messages: state.dialogsPage.messages
+    }
+}*/
