@@ -33,25 +33,3 @@ export default compose<React.ComponentType>(
     WithAuthRedirect)(Dialogs); //суть , возьми Dialogs, закинь в WithAuthRedirect, потом что получилось в connect(mapStateToProps,mapDispatchToProps),
 
 
-
-/*
-export default compose<React.ComponentType>(
-    connect<MSTPType, MDTPType, {}, RootState>(MSTP, {addMessageAc}),
-    withAuthRedirect)(Dialogs)
-
-type MSTPType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-
-}
-
-type MDTPType = {
-    addMessageAc: (text: string) => void
-}
-
-const MSTP = (state: RootState) => {
-    return {
-        dialogs: state.dialogsPage.dialogs,
-        messages: state.dialogsPage.messages
-    }
-}*/

@@ -4,25 +4,11 @@ import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {addMessageAC, DialogType, MessageType} from "../../Redux/dialogs-reducer";
 import {reduxForm, Field, InjectedFormProps} from "redux-form";
+import {Textarea} from "../common/FormsControls/FormsControls";
+import {maxLengthCreator, requiredField} from "../../validators/validators";
+import {AddMessageFormRedux, MessageFormDataType} from "./AddMessageFormRedux/AddMessageFormRedux";
 
 
-type MessageFormDataType = {
-    newMessageBody: string
-}
-
-const AddMessageForm: React.FC<InjectedFormProps<MessageFormDataType>> = (props) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field name="newMessageBody" placeholder="Enter your massage" component="textarea"/>
-            </div>
-            <div>
-                <button>Send</button>
-            </div>
-        </form>
-    )
-}
-const AddMessageFormRedux = reduxForm<MessageFormDataType>({form: "dialogAddMassageForm"})(AddMessageForm)
 
 export type DialogsType = {
     dialogs: Array<DialogType>
