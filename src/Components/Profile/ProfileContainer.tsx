@@ -11,6 +11,8 @@ import {compose} from "redux";
 type MSTP = {
     profile: ProfileType | null
     status: string
+    authorisedUserId : any
+    isAuth: boolean
 }
 type PathParamsType = {
     userId: string
@@ -34,7 +36,8 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, AppSta
     componentDidMount() {
         let userId = this.props.match.params.userId;
         if (!userId) {
-            userId = '15350';
+            // '15350'
+            userId = this.props.authorisedUserId;
         }
         this.props.getUserProfile(userId);//отправляем запрос на юзерский профайл
 
@@ -55,7 +58,9 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, AppSta
 
 let mapStateToProps = (state: AppStateType) => ({
     profile: state.profilePage.profile,
-    status: state.profilePage.status
+    status: state.profilePage.status,
+    authorisedUserId: state.auth.id,
+    isAuth: state.auth.isAuth
 })
 
 export default compose<React.ComponentType>

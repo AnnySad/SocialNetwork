@@ -1,5 +1,6 @@
 import {authAPI} from "../API/api";
 import {Dispatch} from "react";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = "SET_USER_DATA";
 
@@ -80,12 +81,15 @@ export const LoginTC = (email:string, password: string, rememberMe:boolean ) => 
             .then((response) => {
                 if (response.data.resultCode === 0) {
                     dispatch(getAuthUserData())
-                    }
+                    }else {
+                    let message = response.data.message.length > 0 ? response.data.message[0] : "Some error"
+                    dispatch(stopSubmit("login", {_error: "Common error"}))
+                }
                 }
             )
     } }
 
-export const logoutTC = () => {
+export const logoutTC = () =>  {
     return (dispatch: DispatchGetAuthUserData) => {
 
         authAPI.logout( )
