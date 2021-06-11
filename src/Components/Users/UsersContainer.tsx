@@ -2,20 +2,26 @@ import React from "react";
 import {connect} from "react-redux";
 
 import {
-    getUsers,
     setCurrentPage, toggleFollowingProgress,
-    UsersType, follow, unFollow
+    UsersType, follow, unFollow, requestUsers
 } from "../../Redux/users-reducer";
 import {AppStateType} from "../../Redux/Redux-store";
 import Users from "./Users";
 import Tenor from "../common/tenor/tenor";
-import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "./users-selectors";
 
 
 type MDTPType = {
     toggleFollowingProgress: any
-    getUsers: (currentPage: number, pageSize: number) => void;
+    requestUsers: (currentPage: number, pageSize: number) => void;
     follow: (userID: number) => void
     unFollow: (userID: number) => void
     setCurrentPage: (currentPage: number) => void
@@ -32,21 +38,20 @@ type MSTPType = {
 }
 
 
-// type UsersAPIPropsType = {
-//     users: Array<UsersType>;
-//     totalUsersCount: number;
-//     pageSize: number;
-//     currentPage: number;
-//     isFetching: boolean;
-//     followingInProgress: Array<number>
-//     follow: (userID: number) => void;
-//     unfollow: (userID: number) => void;
-//     setCurrentPage: (p: number) => void;
-//     setUsers: (users: Array<UsersType>) => void;
-//     getUsers : (currentPage: number, pageSize : number) => void;
-// }
+export type UsersPropsType = {
+    users: Array<UsersType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    isFetching: boolean
+    followingInProgress: Array<number>
+    setCurrentPage: (currentPage: number) => void
+    getUsers: (currentPage: number, pageSize: number) => void
+    unFollow: (userID: number) => void
+    follow: (userID: number) => void
+}
 
-export type UsersPropsType = MSTPType & MDTPType
+//export type UsersPropsType = MSTPType & MDTPType
 
 class UsersContainer extends React.Component <UsersPropsType> {
 // делаем запросы на сервак
@@ -77,14 +82,25 @@ class UsersContainer extends React.Component <UsersPropsType> {
     }
 }
 
+// let mapStateToProps = (state: AppStateType): MSTPType => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress
+//     }
+// }
+
 let mapStateToProps = (state: AppStateType): MSTPType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
