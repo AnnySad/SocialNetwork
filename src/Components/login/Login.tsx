@@ -1,6 +1,6 @@
 import React from "react";
 import {reduxForm, Field, InjectedFormProps} from 'redux-form';
-import {Textarea} from "../common/FormsControls/FormsControls";
+import {Input, Textarea} from "../common/FormsControls/FormsControls";
 import {requiredField} from "../../validators/validators";
 import {connect} from "react-redux";
 import {LoginTC} from "../../Redux/auth-reducer";
@@ -22,18 +22,18 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field placeholder={"Email"} name={"email"} component={Textarea}
+                <Field placeholder={"Email"} name={"email"} component={Input}
                        validate={[requiredField]}/>
             </div>
-            <div>
-                <Field placeholder={"Password"} name={"password"} component={Textarea}
+            <div className={style.password}>
+                <Field placeholder={"Password"} name={"password"} component={Input}
                        validate={[requiredField]} type={'password'}/>
             </div>
             <div>
                 <Field type={"checkbox"} name={"rememberMe"} component={"input"}
                      /> remember me
             </div>
-            {props.error && <div className={style.formSummeryError}>{props.error}</div>}
+            {props.error && <div className={style.formSummaryError}>{props.error}</div>}
             <div>
                 <button>Log in</button>
             </div>
@@ -66,3 +66,16 @@ const mapStateToProps = (state:AppStateType)  => {
 }
 
 export default connect(mapStateToProps, {LoginTC}) (Login)
+
+
+/*
+$('body').on('click', '.password-control', function(){
+    if ($('#password-input').attr('type') == 'password'){
+        $(this).addClass('view');
+        $('#password-input').attr('type', 'text');
+    } else {
+        $(this).removeClass('view');
+        $('#password-input').attr('type', 'password');
+    }
+    return false;
+});*/

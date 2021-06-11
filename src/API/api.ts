@@ -18,7 +18,7 @@ export const usersAPI = {
             })
 
     },
-    getUserProfile(userId = '') {
+    getUserProfile(userId: string) {
         console.warn('Obsolete method.Please profileAPI object');
         return profileAPI.getUserProfile(userId);
     },
