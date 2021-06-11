@@ -38,6 +38,9 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, AppSta
         if (!userId) {
             // '15350'
             userId = this.props.authorisedUserId;
+            if(!userId) {
+                this.props.history.push('login')
+            }
         }
         this.props.getUserProfile(userId);//отправляем запрос на юзерский профайл
 

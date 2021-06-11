@@ -2,36 +2,23 @@ import React, {ChangeEvent} from 'react';
 
 export type ProfileStatusPropsType = {
     status: string
-    updateStatus:( newStatus: string)=> void
+    updateStatus: (newStatus: string) => void
 }
 
-class ProfileStatus extends React.Component <ProfileStatusPropsType> {
+// class ProfileStatus extends React.Component <ProfileStatusPropsType> {
+type ProfileStatusStateType = {
+    editMode: boolean
+    status: string
+}
 
+export class ProfileStatus extends React.Component<ProfileStatusPropsType, ProfileStatusStateType> {
     state = {
         editMode: false,
-      status: this.props.status
-    }
-
-    activateEditMode=() =>{
-        this.setState({
-            editMode: !this.state.editMode
-        })
-    }
-
-    deactivateEditMode=()=> {
-        this.setState({
-            editMode: !this.state.editMode
-        });
-        this.props.updateStatus(this.state.status);
-    }
-    onStatusChange = (e: ChangeEvent<HTMLInputElement>)=> {
-        this.setState({
-            status: e.currentTarget.value
-        });
+        status: this.props.status
     }
 
 
-    componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+    componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<ProfileStatusStateType>) {
         if (prevProps.status !== this.props.status) {
 
             this.setState({
@@ -40,6 +27,35 @@ class ProfileStatus extends React.Component <ProfileStatusPropsType> {
             )
         }
     }
+
+    activateEditMode = () => {
+        this.setState({
+            editMode: !this.state.editMode
+        })
+    }
+
+    deactivateEditMode = () => {
+        this.setState({
+            editMode: !this.state.editMode
+        });
+        this.props.updateStatus(this.state.status);
+    }
+    onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            status: e.currentTarget.value
+        });
+    }
+
+
+    // componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+    //     if (prevProps.status !== this.props.status) {
+    //
+    //         this.setState({
+    //                 status: this.props.status
+    //             }
+    //         )
+    //     }
+    // }
 
     render() {
         return <div>

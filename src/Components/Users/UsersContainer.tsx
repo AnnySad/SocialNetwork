@@ -89,7 +89,7 @@ let mapStateToProps = (state: AppStateType): MSTPType => {
 }
 
 export default compose<React.ComponentType>(
-    WithAuthRedirect,
+    //WithAuthRedirect,
     (connect(mapStateToProps, {toggleFollowingProgress, setCurrentPage, follow, unFollow, getUsers})
 
     ))(UsersContainer)
