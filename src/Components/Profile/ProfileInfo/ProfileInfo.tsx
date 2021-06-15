@@ -2,6 +2,7 @@ import React from 'react';
 import s from './ProfileInfo.module.css';
 import Tenor from "../../common/tenor/tenor";
 import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 
 type ProfileInfoPropsType = {
@@ -21,7 +22,7 @@ const ProfileInfo = (props:ProfileInfoPropsType) => {
 
         <div className={s.descriptionBlock}>
             <img src={props.profile.photos.large}/>
-            <ProfileStatus  status={props.status} updateStatus={props.updateStatus}/>
+            <ProfileStatusWithHooks  status={props.status} updateStatus={props.updateStatus}/>
         </div>
     </div>
 }
