@@ -49,6 +49,7 @@ export type UsersPropsType = {
     getUsers: (currentPage: number, pageSize: number) => void
     unFollow: (userID: number) => void
     follow: (userID: number) => void
+
 }
 
 //export type UsersPropsType = MSTPType & MDTPType
@@ -106,6 +107,6 @@ let mapStateToProps = (state: AppStateType): MSTPType => {
 
 export default compose<React.ComponentType>(
     //WithAuthRedirect,
-    (connect(mapStateToProps, {toggleFollowingProgress, setCurrentPage, follow, unFollow, getUsers})
+    (connect(mapStateToProps, {toggleFollowingProgress, setCurrentPage, follow, unFollow, getUsers: requestUsers})
 
     ))(UsersContainer)
