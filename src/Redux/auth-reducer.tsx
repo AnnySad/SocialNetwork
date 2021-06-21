@@ -2,7 +2,7 @@ import {authAPI} from "../API/api";
 import {Dispatch} from "react";
 import {stopSubmit} from "redux-form";
 
-const SET_USER_DATA = "SET_USER_DATA";
+const SET_USER_DATA = "auth/SET_USER_DATA";
 
 
 let initialState: AuthStateType = {
@@ -38,48 +38,38 @@ export const setUserDataAC = (userId: number | null, email: string | null, login
 
 //thunks
 export const getAuthUserDataTC = () => {
+    return async (dispatch: Dispatch<AuthActionType>) => {
+        let response = await authAPI.me()
 
-    return (dispatch: Dispatch<AuthActionType>) => {
-
-       return  authAPI.me()
-            .then((response) => {
-                    if (response.data.resultCode === 0) {
-                        let {id, login, email} = response.data.data
-                        dispatch(setUserDataAC(id, login, email, true))
-                    }
-                }
-            )
+        if (response.data.resultCode === 0) {
+            let {id, login, email} = response.data.data
+            dispatch(setUserDataAC(id, login, email, true))
+        }
     }
 }
 
 export const LoginTC = (email: string, password: string, rememberMe: boolean) => {
-    return (dispatch: Dispatch<any>) => {
+    return async (dispatch: Dispatch<any>) => {
 
-        authAPI.login(email, password, rememberMe)
-            .then((response) => {
-                debugger
+        let response = await authAPI.login(email, password, rememberMe)
 
-                    if (response.data.resultCode === 0) {
-                        dispatch(getAuthUserDataTC())
-                    } else {
-                        let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
-                        dispatch(stopSubmit("login", {_error: `${message}`}))
-                    }
-                }
-            )
+        if (response.data.resultCode === 0) {
+            dispatch(getAuthUserDataTC())
+        } else {
+            let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error"
+            dispatch(stopSubmit("login", {_error: `${message}`}))
+        }
     }
 }
 
 export const logoutTC = () => {
-    return (dispatch:  Dispatch<AuthActionType>) => {
+    return async (dispatch: Dispatch<AuthActionType>) => {
 
-        authAPI.logout()
-            .then((response) => {
-                    if (response.data.resultCode === 0) {
-                        dispatch(setUserDataAC(null, null, null, false))
-                    }
-                }
-            )
+        let response = await authAPI.logout()
+
+        if (response.data.resultCode === 0) {
+            dispatch(setUserDataAC(null, null, null, false))
+        }
     }
 }
 //types

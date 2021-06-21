@@ -57,11 +57,14 @@ export type UsersPropsType = {
 class UsersContainer extends React.Component <UsersPropsType> {
 // делаем запросы на сервак
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize);
+        //this.props.getUsers(this.props.currentPage, this.props.pageSize);
+        const {currentPage, pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize)
     }
-
-    onPageChanged = (p: number) => {
-        this.props.getUsers(p, this.props.pageSize);
+    onPageChanged = (currentPage: number) => {
+        //this.props.getUsers(currentPage, this.props.pageSize);
+        const {pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize)
     }
 
     render() {
