@@ -40,7 +40,7 @@ const Paginator = (props: PaginatorPropsType) => {
                     key={p}
                     onClick={() => {
                         props.onPageChanged(p)
-                    }}> {`${p} `}</span>
+                    }}>{p}</span>
             })}
 
         { portionCount > portionNumber &&

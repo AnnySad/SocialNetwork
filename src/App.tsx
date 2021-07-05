@@ -2,20 +2,22 @@ import React from 'react';
 import './App.css';
 import Navbar from "./Components/Navbar/Navbar";
 import {BrowserRouter, Route, withRouter} from "react-router-dom";
-import News from "./Components/News/News";
-import Music from "./Components/Music/Music";
-import Setting from "./Components/Setting/Setting";
-import UsersContainer from "./Components/Users/UsersContainer";
-import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
-import Login from "./Components/login/Login";
-import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import {connect, Provider} from "react-redux";
 import {AppStateType, store} from "./Redux/Redux-store";
 import {compose} from "redux";
 import {initializedAppTC} from "./Redux/app-reducer";
 import {CircularProgress} from '@material-ui/core';
+import {WithSuspense} from "./hoc/WithSuspense";
 
+
+const DialogsContainer = React.lazy(() => import("./Components/Dialogs/DialogsContainer"));
+const UsersContainer = React.lazy(() => import("./Components/Users/UsersContainer"));
+const ProfileContainer = React.lazy(() => import( "./Components/Profile/ProfileContainer"));
+const Login = React.lazy(() => import("./Components/login/Login"));
+const News = React.lazy(() => import("./Components/News/News"));
+const Music = React.lazy(() => import("./Components/Music/Music"));
+const Setting = React.lazy(() => import("./Components/Setting/Setting"));
 
 type MapDispatchToPropsType = {
     initializedApp: () => void
@@ -46,23 +48,13 @@ class App extends React.Component <AppPropsType, AppStateType> {
 
                 <div className='app-wrapper-content'>
 
-                    <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-
-
-                    <Route path='/profile/:userId?' render={() =>
-                        <ProfileContainer/>}/>
-
-                    <Route path='/news' render={() => <News/>}/>
-                    <Route path='/music' render={() => <Music/>}/>
-                    <Route path='/setting' render={() => <Setting/>}/>
-
-
-                    <Route path='/users' render={() =>
-                        <UsersContainer/>}/>
-
-                    <Route path='/login' render={() =>
-                        <Login/>}/>
-
+                    <Route path={'/profile/:userId?'} render={WithSuspense(ProfileContainer)}/>
+                    <Route path={'/dialogs'} render={WithSuspense(DialogsContainer)}/>
+                    <Route path={'/news'} render={WithSuspense(News)}/>
+                    <Route path={'/music'} render={WithSuspense(Music)}/>
+                    <Route path={'/setting'} render={WithSuspense(Setting)}/>
+                    <Route path={'/users'} render={WithSuspense(UsersContainer)}/>
+                    <Route path={'/login'} render={WithSuspense(Login)}/>
 
                 </div>
             </div>

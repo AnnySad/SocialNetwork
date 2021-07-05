@@ -36,5 +36,5 @@
 
 .pageNumber.selectedPage{
     font-weight: bold;
-    border-color: #242121;
+    border-color: grey;
 }
