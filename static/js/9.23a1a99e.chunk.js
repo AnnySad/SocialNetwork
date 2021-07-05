@@ -1,0 +1,2 @@
+(this.webpackJsonpuntitled3=this.webpackJsonpuntitled3||[]).push([[9],{313:function(t,e,n){"use strict";n.r(e);n(0);var i=n(2);e.default=function(t){return Object(i.jsx)("div",{children:"News"})}}}]);
+//# sourceMappingURL=9.23a1a99e.chunk.js.map
