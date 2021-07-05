@@ -19,31 +19,13 @@ import {
 } from "./users-selectors";
 
 
-type MDTPType = {
-    toggleFollowingProgress: any
-    requestUsers: (currentPage: number, pageSize: number) => void;
-    follow: (userID: number) => void
-    unFollow: (userID: number) => void
-    setCurrentPage: (currentPage: number) => void
-}
-
-
-type MSTPType = {
-    users: Array<UsersType>;
-    pageSize: number;
-    totalUsersCount: number;
-    currentPage: number;
-    isFetching: boolean;
-    followingInProgress: Array<number>
-}
-
-
 export type UsersPropsType = {
     users: Array<UsersType>
     pageSize: number
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    portionSize: number
     followingInProgress: Array<number>
     setCurrentPage: (currentPage: number) => void
     getUsers: (currentPage: number, pageSize: number) => void
@@ -52,17 +34,16 @@ export type UsersPropsType = {
 
 }
 
-//export type UsersPropsType = MSTPType & MDTPType
 
 class UsersContainer extends React.Component <UsersPropsType> {
-// делаем запросы на сервак
+
     componentDidMount() {
         //this.props.getUsers(this.props.currentPage, this.props.pageSize);
         const {currentPage, pageSize} = this.props
         this.props.getUsers(currentPage, pageSize)
     }
+
     onPageChanged = (currentPage: number) => {
-        //this.props.getUsers(currentPage, this.props.pageSize);
         const {pageSize} = this.props
         this.props.getUsers(currentPage, pageSize)
     }
@@ -80,31 +61,22 @@ class UsersContainer extends React.Component <UsersPropsType> {
                    follow={this.props.follow}
                    unFollow={this.props.unFollow}
                    followingInProgress={this.props.followingInProgress}
-            />
+                   portionSize={this.props.portionSize}/>
         </>
 
     }
 }
 
-// let mapStateToProps = (state: AppStateType): MSTPType => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingInProgress: state.usersPage.followingInProgress
-//     }
-// }
 
-let mapStateToProps = (state: AppStateType): MSTPType => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),
         totalUsersCount: getTotalUsersCount(state),
         currentPage: getCurrentPage(state),
         isFetching: getIsFetching(state),
-        followingInProgress: getFollowingInProgress(state)
+        followingInProgress: getFollowingInProgress(state),
+        portionSize: state.usersPage.portionSize
     }
 }
 

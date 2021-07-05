@@ -8,6 +8,7 @@ import User from "./Userrrr";
 
 
 type UsersPropsType = {
+    portionSize: number;
     followingInProgress: Array<number>;
     users: Array<UsersType>;
     currentPage: number;
@@ -24,8 +25,9 @@ let Users = (props: UsersPropsType) => {
     return <div>
         <Paginator currentPage={props.currentPage}
                    pageSize={props.pageSize}
-                   totalUsersCount={props.totalUsersCount}
-                   onPageChanged={props.onPageChanged}/>
+                   totalItemsCount={props.totalUsersCount}
+                   onPageChanged={props.onPageChanged}
+                   portionSize={props.portionSize}/>
         {
             props.users.map((u) =>
                 <User key={u.id}

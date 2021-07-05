@@ -3,18 +3,17 @@ import userPhoto from "../../assets/img/user.png.jpg";
 import React from "react";
 import {UsersType} from "../../Redux/users-reducer";
 import {NavLink} from 'react-router-dom';
-import Paginator from "../common/Paginator/Paginator";
 
 
 type UserPropsType = {
-    followingInProgress: Array<number>;
     user: UsersType;
+    followingInProgress: Array<number>;
     follow: (userID: number) => void;
     unFollow: (userID: number) => void;
 }
 
 
-let User = (props: UserPropsType) => {
+const User = (props: UserPropsType) => {
 
     // let user = user;
     return <div className={styles.userContainer}>
@@ -43,7 +42,7 @@ let User = (props: UserPropsType) => {
 
                 </div>
             </span>
-                <span>
+        <span>
                     <div className={styles.userDescription}>
                         <h5>{props.user.name}</h5>
                         <p>{props.user.status}</p>
@@ -53,6 +52,6 @@ let User = (props: UserPropsType) => {
                         <div>{"user.location.city"}</div>
                     </span>
                 </span>
-            </div>
+    </div>
 }
 export default User;

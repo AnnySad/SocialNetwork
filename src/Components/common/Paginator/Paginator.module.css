@@ -1,3 +1,40 @@
 .selectedPage {
     font-weight: bold;
+    background-color: #333;
+    display: inline-block;
+    border: 1px solid;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 30px;
+}
+
+
+.paginator {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    min-height: 40px;
+    width: 70%;
+    padding: 10px;
+    margin: 10px;
+}
+
+.pageNumber{
+    display: inline-block;
+    border: 1px solid;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background: #7892c2;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 30px;
+}
+
+.pageNumber.selectedPage{
+    font-weight: bold;
+    border-color: #242121;
 }
